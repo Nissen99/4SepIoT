@@ -11,8 +11,6 @@
 #include <stdlib.h>
 
 
-
-
 // laver struct
 typedef struct Terrariumdata* Terrariumdata_p;
 
