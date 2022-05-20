@@ -8,11 +8,11 @@
 #include <stdio.h>
 
 #include <ATMEGA_FreeRTOS.h>
-
+#include <semphr.h>
 
 #include <lora_driver.h>
 #include <status_leds.h>
-#include <semphr.h>
+
 #include "terrarium.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
@@ -138,7 +138,6 @@ void lora_handler_task( void *pvParameters )
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		
 		
-		semaphore:
 		xSemaphoreTake(semaphore, portMAX_DELAY);
 		
 		
