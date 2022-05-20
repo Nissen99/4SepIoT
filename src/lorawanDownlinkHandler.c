@@ -5,6 +5,7 @@
  * Created: 20/05/2022 17:18:33
  *  Author: Mikkel
  */ 
+#include "lora_driver.h"
 #include "lorawanDownlinkHandler.h"
 #include "terrarium.h"
 #include "message_buffer.h"
@@ -17,6 +18,7 @@
 void lora_downlink_handler_task( void *pvParameters )
 {
 		printf("Downlink task startet");
+		
 	lora_driver_payload_t downlinkPayload;
 
 		

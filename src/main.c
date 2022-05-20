@@ -14,6 +14,7 @@
 #include <task.h>
 #include <serial.h>
 #include <time.h>
+#include "lora_driver.h"
 
 //include drivers
 #include "hih8120.h"
@@ -39,12 +40,12 @@ TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
-
+MessageBufferHandle_t downLinkMessageBufferHandle;
 
 int main() {
 	
 	// Here I make room for two downlink messages in the message buffer TODO
-	//MessageBufferHandle_t downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
+	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
 	
 	// The parameter is the USART port the RN2483 module is connected to -
 	// in this case USART1 - here no message buffer for down-link messages are defined
@@ -75,7 +76,7 @@ int main() {
 	// Initialise the LoRaWAN driver without down-link buffer
 	//lora_driver_initialise(1, NULL);
 	//setup for loRaWAN
-	lora_driver_initialise(ser_USART1,NULL);
+	lora_driver_initialise(ser_USART1, downLinkMessageBufferHandle);
 	
 	//lora_handler_task(3);
 
