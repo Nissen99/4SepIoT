@@ -21,10 +21,18 @@
 #include "stdio_driver.h"
 #include "lora_driver.h"
 #include "co2Sensor.h"
+#include "mh_z19.h"
+#include "rc_servo.h"
+#include <message_buffer.h>
 
 //header filer for de task vi opretter
 #include "tempHumSensor.h"
 #include "LoRaWANHandler.h"
+#include "lorawanDownlinkHandler.h"
+
+ extern MessageBufferHandle_t downlinkMessageBuffer;
+
+
 
 
 //definere vores min og maks ( vha. FreeRTOS)
@@ -35,12 +43,14 @@
 TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
+TaskHandle_t loradownlink = NULL;
 
-
+MessageBufferHandle_t downLinkMessageBufferHandle;
 int main() {
 	
 	// Here I make room for two downlink messages in the message buffer TODO
-	//MessageBufferHandle_t downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
+
+	//downlinkMessageBuffer = xMessageBufferCreate(sizeof(lora_driver_payload_t) * 2);
 	
 	// The parameter is the USART port the RN2483 module is connected to -
 	// in this case USART1 - here no message buffer for down-link messages are defined
@@ -67,11 +77,16 @@ int main() {
 	// for at printe ud skal dette her med ( header filen "stdio_driver.h" skal includes
 	stdio_initialise(ser_USART0);
 	
+	initializeDownlinkMessageBuffer();
+	
+	//downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
+
+	
 	
 	// Initialise the LoRaWAN driver without down-link buffer
 	//lora_driver_initialise(1, NULL);
 	//setup for loRaWAN
-	lora_driver_initialise(ser_USART1,NULL);
+	lora_driver_initialise(ser_USART1,downLinkMessageBufferHandle);
 	
 	//lora_handler_task(3);
 
@@ -86,6 +101,8 @@ int main() {
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
 	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
 	xTaskCreate(co2SensorTask, "co2Mesurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &co2SensorHandle);
+	xTaskCreate(lora_downlink_handler_task, "loraDownLink", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &loradownlink);
+	
 	
 	//xTaskCreate()
 
@@ -99,6 +116,7 @@ int main() {
 		return 1;
 	}
 	mh_z19_initialise(ser_USART3);
+	rc_servo_initialise();
 
 	
 	// der må ikke køres kode, når scheduleren er eksiveret

@@ -5,6 +5,7 @@
  *  Author: Mikkel
  */ 
 #include "terrarium.h"
+#include "servomotor.h"
 
 float static temperature;
 int static temperatureCount;
@@ -65,6 +66,9 @@ uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
 	return terrariumdata->co2;
 }
 
+void feedAnimalTerrarium(){
+	rotate180Servo();
+}
 
 
 Terrariumdata_p prepareTerrariumData()

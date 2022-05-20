@@ -147,8 +147,8 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 	_uplink_payload.bytes[1] = temp & 0xFF;
 	_uplink_payload.bytes[2] = hum >> 8;
 	_uplink_payload.bytes[3] = hum & 0xFF;
-	_uplink_payload.bytes[2] = co2 >> 8;
-	_uplink_payload.bytes[3] = co2 & 0xFF;
+	_uplink_payload.bytes[4] = co2 >> 8;
+	_uplink_payload.bytes[5] = co2 & 0xFF;
 
 
 	status_leds_shortPuls(led_ST4);  // OPTIONAL
@@ -170,9 +170,6 @@ void lora_handler_task( void *pvParameters )
 	{
 		
 		run(xLastWakeTime, xFrequency);
-		
-
-		
 		
 	}
 	

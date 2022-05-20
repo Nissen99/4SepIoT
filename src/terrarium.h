@@ -6,10 +6,9 @@
  */ 
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <semphr.h>
-
+#include <stdlib.h>
 
 
 // laver struct
@@ -26,6 +25,8 @@ int16_t getTerrariumHum(Terrariumdata_p terrariumdata);
 int16_t getTerrariumTemp(Terrariumdata_p terrariumdata);
 
 uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata);
+
+void feedAnimalTerrarium();
 
 Terrariumdata_p prepareTerrariumData();
 
