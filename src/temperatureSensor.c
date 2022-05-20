@@ -36,10 +36,15 @@ void tempSensorTask(void* pvParameters) {
 
 		float temperature = hih8120_getTemperature();
 		updateTerrariumTemperature(temperature);
+		
+		float humidity =  hih8120_getHumidity();
+		updateTerrariumHumidity(humidity);
 
 		printf("Temperatur: %fC° \n",temperature);
+		printf("Humidity: %fC° \n",humidity);
 		xSemaphoreGive(semaphore);
 
+		vTaskDelay(10000);
 	}
 
 	vTaskDelete(NULL);
