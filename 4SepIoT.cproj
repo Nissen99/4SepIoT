@@ -272,6 +272,27 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\LoRaWANHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\LoRaWANHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\temperatureSensor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\temperatureSensor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\terrarium.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\terrarium.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="drivers\" />
@@ -280,6 +301,7 @@
     <Folder Include="FreeRTOS\Example\" />
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
     <Folder Include="FreeRTOS\src\" />
+    <Folder Include="src" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore">
@@ -336,12 +358,6 @@
     <None Include="FreeRTOS\src\LICENSE.md">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="LoRaWANHandler.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="main.c">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
