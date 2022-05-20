@@ -109,8 +109,7 @@ static void _lora_setup(void)
 	}
 }
 
-/*-----------------------------------------------------------*/
-void lora_handler_task( void *pvParameters )
+inline void init()
 {
 	printf("kommer vi her i lora handler task?");
 	
@@ -127,6 +126,37 @@ void lora_handler_task( void *pvParameters )
 
 	_uplink_payload.len = 4;
 	_uplink_payload.portNo = 2;
+}
+
+inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
+{
+	xTaskDelayUntil( &xLastWakeTime, xFrequency );
+	
+	
+	xSemaphoreTake(semaphore, portMAX_DELAY);
+	
+	
+	Terrariumdata_p terrariumdata = prepareTerrariumData();
+	
+	int16_t temp = getTerrariumTemp(terrariumdata);
+	int16_t hum = getTerrariumHum(terrariumdata);
+
+
+	_uplink_payload.bytes[0] = temp >> 8;
+	_uplink_payload.bytes[1] = temp & 0xFF;
+	_uplink_payload.bytes[2] = hum >> 8;
+	_uplink_payload.bytes[3] = hum & 0xFF;
+
+	status_leds_shortPuls(led_ST4);  // OPTIONAL
+	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+	xSemaphoreGive(semaphore);
+}
+
+/*-----------------------------------------------------------*/
+void lora_handler_task( void *pvParameters )
+{
+	init();
+	
 
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(3000UL); // Upload message every 5 minutes (300000 ms)
@@ -135,26 +165,8 @@ void lora_handler_task( void *pvParameters )
 	for(;;)
 	{
 		
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		run(xLastWakeTime, xFrequency);
 		
-		
-		xSemaphoreTake(semaphore, portMAX_DELAY);
-		
-		
-		Terrariumdata_p terrariumdata = prepareTerrariumData();
-		
-		int16_t temp = getTerrariumTemp(terrariumdata);
-		int16_t hum = getTerrariumHum(terrariumdata);
-
-
-		_uplink_payload.bytes[0] = temp >> 8;
-		_uplink_payload.bytes[1] = temp & 0xFF;
-		_uplink_payload.bytes[2] = hum >> 8;
-		_uplink_payload.bytes[3] = hum & 0xFF;
-
-		status_leds_shortPuls(led_ST4);  // OPTIONAL
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-		xSemaphoreGive(semaphore);
 
 		
 		

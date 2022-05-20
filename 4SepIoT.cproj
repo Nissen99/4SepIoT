@@ -297,10 +297,10 @@
     <Compile Include="src\main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\temperatureSensor.c">
+    <Compile Include="src\tempHumSensor.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\temperatureSensor.h">
+    <Compile Include="src\tempHumSensor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\terrarium.c">
