@@ -47,6 +47,7 @@
 *.cmd
 .tmp_versions/
 /Debug/
+.vs/
 modules.order
 Module.symvers
 Mkfile.old
