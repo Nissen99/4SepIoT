@@ -28,15 +28,20 @@ inline void run()
 	}
 	vTaskDelay(5);
 
-	printf("Semaphore take Sensor");
+
 	xSemaphoreTake(semaphore, portMAX_DELAY);
 
 	float temperature = hih8120_getTemperature();
 	updateTerrariumTemperature(temperature);
+	
+	float humidity =  hih8120_getHumidity();
+	updateTerrariumHumidity(humidity);
 
-	printf("Temperatur: %dC° \n",(int) temperature);
+	printf("Temperatur: %dC° \n",(int)temperature);
+	printf("Humidity: %d% \n",(int)humidity);
 	xSemaphoreGive(semaphore);
-	printf("Semaphore give Sensor");
+
+	vTaskDelay(100);
 }
 
 void tempHumSensorTask(void* pvParameters) {

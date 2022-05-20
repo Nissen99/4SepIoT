@@ -17,6 +17,10 @@ typedef struct Terrariumdata* Terrariumdata_p;
 
 void updateTerrariumTemperature(float temp );
 
+void updateTerrariumHumidity(float hum);
+
+int16_t getTerrariumHum(Terrariumdata_p terrariumdata);
+
 int16_t getTerrariumTemp(Terrariumdata_p terrariumdata);
 
 Terrariumdata_p prepareTerrariumData();

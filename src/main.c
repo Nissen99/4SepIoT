@@ -80,7 +80,7 @@ int main() {
 	
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
-	xTaskCreate(tempHumSensorTask, "Temperature and Humidity measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
+	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
 	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
 	
 	//xTaskCreate()
