@@ -13,8 +13,8 @@
 #include <status_leds.h>
 
 // Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+#define LORA_appEUI "2E20554EE0BE7265"
+#define LORA_appKEY "D951DC87A928E70B1C2EDD116E87352F"
 
 void lora_handler_task( void *pvParameters );
 
@@ -127,7 +127,7 @@ void lora_handler_task( void *pvParameters )
 	
 	for(;;)
 	{
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		
 
 		// Some dummy payload
 		uint16_t hum = 12345; // Dummy humidity
@@ -143,5 +143,7 @@ void lora_handler_task( void *pvParameters )
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		
+		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	}
 }
