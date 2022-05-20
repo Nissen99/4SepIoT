@@ -5,5 +5,5 @@
  *  Author: Mikkel
  */ 
 
-void tempSensorTask(void* pvParameters);
+void tempHumSensorTask(void* pvParameters);
 //float messureTemp();

@@ -22,7 +22,7 @@
 #include "lora_driver.h"
 
 //header filer for de task vi opretter
-#include "temperatureSensor.h"
+#include "tempHumSensor.h"
 #include "LoRaWANHandler.h"
 
 
@@ -31,7 +31,7 @@
 
 
 //task setup
-TaskHandle_t tempSensorHandle = NULL;
+TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
 
 
@@ -80,8 +80,8 @@ int main() {
 	
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
-	xTaskCreate(tempSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempSensorHandle);
-	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,4, &loRaWanHandle);
+	xTaskCreate(tempHumSensorTask, "Temperature and Humidity measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
+	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
 	
 	//xTaskCreate()
 
