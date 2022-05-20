@@ -21,10 +21,13 @@
 #include "stdio_driver.h"
 #include "lora_driver.h"
 #include "co2Sensor.h"
+#include "mh_z19.h"
+#include "rc_servo.h"
 
 //header filer for de task vi opretter
 #include "tempHumSensor.h"
 #include "LoRaWANHandler.h"
+#include "lorawanDownlinkHandler.h"
 
 
 //definere vores min og maks ( vha. FreeRTOS)
@@ -35,6 +38,7 @@
 TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
+TaskHandle_t loradownlink = NULL;
 
 
 int main() {
@@ -86,6 +90,8 @@ int main() {
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
 	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
 	xTaskCreate(co2SensorTask, "co2Mesurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &co2SensorHandle);
+	xTaskCreate(lora_downlink_handler_task, "loraDownLink", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &loradownlink);
+	
 	
 	//xTaskCreate()
 
@@ -99,6 +105,7 @@ int main() {
 		return 1;
 	}
 	mh_z19_initialise(ser_USART3);
+	rc_servo_initialise();
 
 	
 	// der må ikke køres kode, når scheduleren er eksiveret

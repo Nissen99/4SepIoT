@@ -294,6 +294,12 @@
     <Compile Include="src\co2Sensor.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\lorawanDownlinkHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lorawanDownlinkHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\LoRaWANHandler.c">
       <SubType>compile</SubType>
     </Compile>
@@ -301,6 +307,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\servomotor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\servomotor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\tempHumSensor.c">
