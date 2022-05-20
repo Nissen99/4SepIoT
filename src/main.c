@@ -37,8 +37,8 @@ TaskHandle_t loRaWanHandle = NULL;
 
 int main() {
 	
-	// Here I make room for two downlink messages in the message buffer
-	MessageBufferHandle_t downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
+	// Here I make room for two downlink messages in the message buffer TODO
+	//MessageBufferHandle_t downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
 	
 	// The parameter is the USART port the RN2483 module is connected to -
 	// in this case USART1 - here no message buffer for down-link messages are defined
@@ -87,7 +87,7 @@ int main() {
 
 
 	// Innitalisere semaphoren
-	//semaphore = xSemaphoreCreateMutex();
+	semaphore = xSemaphoreCreateMutex();
 	
 	// initialalisere temp/fugt måleren
 	if(HIH8120_OK !=  hih8120_initialise()) {
@@ -98,8 +98,8 @@ int main() {
 	// der må ikke køres kode, når scheduleren er eksiveret
 	vTaskStartScheduler();
 
-	//	while (1)
-	//{}
+		while (1)
+		{}
 
 }
 
