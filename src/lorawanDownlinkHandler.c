@@ -12,12 +12,12 @@
 
 
 
+	lora_driver_payload_t downlinkPayload;
 
 /*-----------------------------------------------------------*/
 void lora_downlink_handler_task( void *pvParameters )
 {
 		printf("Downlink task startet");
-	lora_driver_payload_t downlinkPayload;
 
 		
 	for(;;)

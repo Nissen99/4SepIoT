@@ -315,6 +315,12 @@
     <Compile Include="src\servomotor.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\setup.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\setup.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\tempHumSensor.c">
       <SubType>compile</SubType>
     </Compile>
