@@ -12,10 +12,14 @@ int static temperatureCount;
 float static humidity;
 int static humidityCount;
 
+uint16_t static co2;
+int static co2Count;
 
 typedef struct Terrariumdata {
 	int16_t  temperature;
 	int16_t  humidity;
+	uint16_t  co2;
+
 
 } Terrariumdata;
 
@@ -50,6 +54,18 @@ int16_t getTerrariumHum(Terrariumdata_p terrariumdata)
 }
 
 
+void updateTerrariumCO2(uint16_t co2)
+{
+	co2 += co2;
+	co2Count++;	
+}
+
+uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
+{
+	return terrariumdata->co2;
+}
+
+
 
 Terrariumdata_p prepareTerrariumData()
 {
@@ -70,8 +86,11 @@ Terrariumdata_p prepareTerrariumData()
 	float humAvg = humidity/humidityCount;
 	int16_t humAvgX10 = (int16_t) humAvg*10;
 	
+	uint16_t co2Avg = co2/co2Count;
+	
 	newTerrarium->temperature = tempAvgX10;
 	newTerrarium->humidity = humAvgX10;
+	newTerrarium->co2 = co2Avg;
 
 	return newTerrarium;
 

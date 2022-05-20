@@ -124,7 +124,7 @@ inline void init()
 
 	_lora_setup();
 
-	_uplink_payload.len = 4;
+	_uplink_payload.len = 6;
 	_uplink_payload.portNo = 2;
 }
 
@@ -140,12 +140,16 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 	
 	int16_t temp = getTerrariumTemp(terrariumdata);
 	int16_t hum = getTerrariumHum(terrariumdata);
+	uint16_t co2 = getTerrariumCO2(terrariumdata);
 
 
 	_uplink_payload.bytes[0] = temp >> 8;
 	_uplink_payload.bytes[1] = temp & 0xFF;
 	_uplink_payload.bytes[2] = hum >> 8;
 	_uplink_payload.bytes[3] = hum & 0xFF;
+	_uplink_payload.bytes[2] = co2 >> 8;
+	_uplink_payload.bytes[3] = co2 & 0xFF;
+
 
 	status_leds_shortPuls(led_ST4);  // OPTIONAL
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));

@@ -20,6 +20,7 @@
 #include "serial.h"
 #include "stdio_driver.h"
 #include "lora_driver.h"
+#include "co2Sensor.h"
 
 //header filer for de task vi opretter
 #include "tempHumSensor.h"
@@ -33,6 +34,7 @@
 //task setup
 TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
+TaskHandle_t co2SensorHandle = NULL;
 
 
 int main() {
@@ -70,6 +72,7 @@ int main() {
 	//lora_driver_initialise(1, NULL);
 	//setup for loRaWAN
 	lora_driver_initialise(ser_USART1,NULL);
+	
 	//lora_handler_task(3);
 
 
@@ -82,6 +85,7 @@ int main() {
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
 	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
+	xTaskCreate(co2SensorTask, "co2Mesurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &co2SensorHandle);
 	
 	//xTaskCreate()
 
@@ -94,6 +98,8 @@ int main() {
 		printf("Failed to initialize temperature sensor\n");
 		return 1;
 	}
+	mh_z19_initialise(ser_USART3);
+
 	
 	// der må ikke køres kode, når scheduleren er eksiveret
 	vTaskStartScheduler();
