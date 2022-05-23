@@ -31,7 +31,7 @@ void lora_downlink_handler_task( void *pvParameters )
 		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload->portNo, downlinkPayload->len); // Just for Debug
 		
 		
-		if (4 == downlinkPayload->len) // Check that we have got the expected 4 bytes
+		if (1 == downlinkPayload->portNo) // Check that we have got the expected 4 bytes
 		{
 			
 		feedAnimalTerrarium();

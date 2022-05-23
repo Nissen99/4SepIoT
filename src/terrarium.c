@@ -70,6 +70,7 @@ uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
 }
 
 void feedAnimalTerrarium(){
+	printf("Animal feed i Terrarium \n");
 	rotate180Servo();
 }
 
