@@ -16,10 +16,13 @@ int static humidityCount;
 uint16_t static co2;
 int static co2Count;
 
+int8_t static isFed;
+
 typedef struct Terrariumdata {
 	int16_t  temperature;
 	int16_t  humidity;
 	uint16_t  co2;
+	int8_t isFed;
 
 
 } Terrariumdata;
@@ -69,8 +72,15 @@ uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
 	return terrariumdata->co2;
 }
 
+int8_t getTerrariumIsFed(Terrariumdata_p terrariumdata) {
+	return terrariumdata->isFed;
+}
+
 void feedAnimalTerrarium(){
+	
+	printf("Animal feed i Terrarium \n");
 	rotate180Servo();
+	isFed = 1;
 }
 
 void resetData(){
@@ -80,6 +90,7 @@ void resetData(){
 	humidityCount = 0;
 	co2 = 0;
 	co2Count = 0;
+	isFed = 0;
 	printf("Data reset \n");
 }
 
@@ -108,6 +119,7 @@ Terrariumdata_p prepareTerrariumData()
 	newTerrarium->temperature = tempAvgX10;
 	newTerrarium->humidity = humAvgX10;
 	newTerrarium->co2 = co2Avg;
+	newTerrarium->isFed = isFed;
 	
 	resetData();
 

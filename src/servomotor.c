@@ -11,10 +11,15 @@
 
 void rotate180Servo(){
 	
-	rc_servo_setPosition(0, 50);
+	printf("Servo 180 Wrrruuuuum \n");
 	
-	vTaskDelay(1000);
-	
-	rc_servo_setPosition(0, 0);
+	//rc_servo_setPosition(0, 50);
+	//
+	//vTaskDelay(1000);
+	//
+	//rc_servo_setPosition(0, 0);
+	//
+		printf("Servo 180 Tilbage  mmmmuuuurrww \n");
+
 		
 }

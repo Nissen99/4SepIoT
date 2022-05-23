@@ -132,7 +132,7 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 {
 	//xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	//const TickType_t xDelay = 3000;
-	vTaskDelay(pdMS_TO_TICKS(60000));
+	vTaskDelay(pdMS_TO_TICKS(10000));
 	
 	
 	xSemaphoreTake(semaphore, portMAX_DELAY);
@@ -143,8 +143,9 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 	int16_t temp = getTerrariumTemp(terrariumdata);
 	int16_t hum = getTerrariumHum(terrariumdata);
 	uint16_t co2 = getTerrariumCO2(terrariumdata);
+	int8_t isFed = getTerrariumIsFed(terrariumdata);
 
-printf("Temp: %d	-	Hum: %d		-	Co2: %d\n", temp, hum, co2);
+printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
 
 	_uplink_payload.bytes[0] = temp >> 8;
 	_uplink_payload.bytes[1] = temp & 0xFF;
@@ -156,7 +157,7 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d\n", temp, hum, co2);
 	_uplink_payload.bytes[7] = 0;
 	_uplink_payload.bytes[8] = 0;
 	_uplink_payload.bytes[9] = 0;
-	_uplink_payload.bytes[10] = 0;
+	_uplink_payload.bytes[10] = isFed;
 
 	status_leds_shortPuls(led_ST4);  // OPTIONAL
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
