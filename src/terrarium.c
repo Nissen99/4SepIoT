@@ -55,10 +55,13 @@ int16_t getTerrariumHum(Terrariumdata_p terrariumdata)
 }
 
 
-void updateTerrariumCO2(uint16_t co2)
+void updateTerrariumCO2(uint16_t co2val)
 {
-	co2 += co2;
+	
+	//printf("1. Co2 i updateTerrariumCo2: %d", co2);
+	co2 += co2val;
 	co2Count++;	
+	//printf("2. Co2 i updateTerrariumCo2: %d", co2);
 }
 
 uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
@@ -70,6 +73,16 @@ void feedAnimalTerrarium(){
 	rotate180Servo();
 }
 
+void resetData(){
+	temperature = 0.0;
+	temperatureCount = 0;
+	humidity = 0.0;
+	humidityCount = 0;
+	co2 = 0;
+	co2Count = 0;
+	printf("Data reset \n");
+}
+
 
 Terrariumdata_p prepareTerrariumData()
 {
@@ -77,7 +90,7 @@ Terrariumdata_p prepareTerrariumData()
 	Terrariumdata_p newTerrarium = pvPortMalloc(sizeof(Terrariumdata));
 	if(newTerrarium == NULL)
 	{
-		printf("could not allocate memory in terrium.c \n" );
+		printf("could not allocate memory in terrarium.c \n" );
 		return NULL;
 	}
 
@@ -90,11 +103,13 @@ Terrariumdata_p prepareTerrariumData()
 	float humAvg = humidity/humidityCount;
 	int16_t humAvgX10 = (int16_t) humAvg*10;
 	
-	uint16_t co2Avg = co2/co2Count;
+	uint16_t co2Avg = (uint16_t) co2/co2Count;
 	
 	newTerrarium->temperature = tempAvgX10;
 	newTerrarium->humidity = humAvgX10;
 	newTerrarium->co2 = co2Avg;
+	
+	//resetData();
 
 	return newTerrarium;
 

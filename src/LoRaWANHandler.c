@@ -130,7 +130,8 @@ inline void init()
 
 inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 {
-	xTaskDelayUntil( &xLastWakeTime, xFrequency );
+	//xTaskDelayUntil( &xLastWakeTime, xFrequency );
+	vTaskDelay(1000);
 	
 	
 	xSemaphoreTake(semaphore, portMAX_DELAY);
@@ -142,6 +143,7 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 	int16_t hum = getTerrariumHum(terrariumdata);
 	uint16_t co2 = getTerrariumCO2(terrariumdata);
 
+printf("Temp: %d	-	Hum: %d		-	Co2: %d\n", temp, hum, co2);
 
 	_uplink_payload.bytes[0] = temp >> 8;
 	_uplink_payload.bytes[1] = temp & 0xFF;
@@ -149,7 +151,6 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 	_uplink_payload.bytes[3] = hum & 0xFF;
 	_uplink_payload.bytes[4] = co2 >> 8;
 	_uplink_payload.bytes[5] = co2 & 0xFF;
-
 
 	status_leds_shortPuls(led_ST4);  // OPTIONAL
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
@@ -163,7 +164,7 @@ void lora_handler_task( void *pvParameters )
 	
 
 	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(3000UL); // Upload message every 5 minutes (300000 ms)
+	const TickType_t xFrequency = pdMS_TO_TICKS(30000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 	
 	for(;;)

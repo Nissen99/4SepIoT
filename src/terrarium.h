@@ -28,6 +28,8 @@ uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata);
 
 void feedAnimalTerrarium();
 
+void resetData();
+
 Terrariumdata_p prepareTerrariumData();
 
 SemaphoreHandle_t semaphore;
