@@ -26,6 +26,8 @@ int16_t getTerrariumTemp(Terrariumdata_p terrariumdata);
 
 uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata);
 
+int8_t getTerrariumIsFed(Terrariumdata_p terrariumdata);
+
 void feedAnimalTerrarium();
 
 void resetData();
