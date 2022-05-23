@@ -10,12 +10,10 @@
 #include "mh_z19.h"
 
 
-inline void run()
+inline void run(uint16_t *ppm)
 {
 
 	xSemaphoreTake(semaphore, portMAX_DELAY);
-	
-	uint16_t *ppm;
 	
 	mh_z19_returnCode_t rc = mh_z19_takeMeassuring();
 	if(rc != MHZ19_OK) {
@@ -33,13 +31,13 @@ inline void run()
 		return;
 	}
 	
-	updateTerrariumCO2(ppm);
+	updateTerrariumCO2(*ppm);
 	
-	printf("CO2 level : %d ppm \n", (int) ppm);
+	printf("CO2 level : %d ppm \n", (int) *ppm);
 	
 		xSemaphoreGive(semaphore);
 
-	vTaskDelay(9000);
+	vTaskDelay(500);
 
 
 }
@@ -47,10 +45,12 @@ inline void run()
 
 void co2SensorTask(void* pvParameters) {
 	(void)pvParameters;
-
+	
+	uint16_t ppm = pvPortMalloc(sizeof(uint16_t));
+	
 	//her laver vi vores temperature målinger med 100ms delay
 	while(1) {
-		run();
+		run(&ppm);
 		
 	}
 
