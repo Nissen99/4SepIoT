@@ -98,10 +98,10 @@ Terrariumdata_p prepareTerrariumData()
 
 
 	float tempAvg =  temperature/temperatureCount;
-	int16_t tempAvgX10 = (int16_t) tempAvg*10;
+	int16_t tempAvgX10 = (int16_t) (tempAvg*10);
 	
 	float humAvg = humidity/humidityCount;
-	int16_t humAvgX10 = (int16_t) humAvg*10;
+	int16_t humAvgX10 = (int16_t) (humAvg*10);
 	
 	uint16_t co2Avg = (uint16_t) co2/co2Count;
 	
@@ -109,7 +109,7 @@ Terrariumdata_p prepareTerrariumData()
 	newTerrarium->humidity = humAvgX10;
 	newTerrarium->co2 = co2Avg;
 	
-	//resetData();
+	resetData();
 
 	return newTerrarium;
 

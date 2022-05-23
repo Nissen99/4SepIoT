@@ -124,14 +124,15 @@ inline void init()
 
 	_lora_setup();
 
-	_uplink_payload.len = 6;
+	_uplink_payload.len = 11;
 	_uplink_payload.portNo = 2;
 }
 
 inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 {
 	//xTaskDelayUntil( &xLastWakeTime, xFrequency );
-	vTaskDelay(1000);
+	//const TickType_t xDelay = 3000;
+	vTaskDelay(pdMS_TO_TICKS(60000));
 	
 	
 	xSemaphoreTake(semaphore, portMAX_DELAY);
@@ -151,6 +152,11 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d\n", temp, hum, co2);
 	_uplink_payload.bytes[3] = hum & 0xFF;
 	_uplink_payload.bytes[4] = co2 >> 8;
 	_uplink_payload.bytes[5] = co2 & 0xFF;
+	_uplink_payload.bytes[6] = 0;
+	_uplink_payload.bytes[7] = 0;
+	_uplink_payload.bytes[8] = 0;
+	_uplink_payload.bytes[9] = 0;
+	_uplink_payload.bytes[10] = 0;
 
 	status_leds_shortPuls(led_ST4);  // OPTIONAL
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
