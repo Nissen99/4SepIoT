@@ -12,7 +12,7 @@
 #include "lora_driver.h"
 
 
-extern MessageBufferHandle_t downLinkMessageBufferHandle;
+//extern MessageBufferHandle_t downLinkMessageBufferHandle;
 
 
-void initializeDownlinkMessageBuffer();
+MessageBufferHandle_t initializeDownlinkMessageBuffer();

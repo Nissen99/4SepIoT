@@ -81,7 +81,7 @@ int main() {
 	// for at printe ud skal dette her med ( header filen "stdio_driver.h" skal includes
 	stdio_initialise(ser_USART0);
 	
-	initializeDownlinkMessageBuffer();
+	downLinkMessageBufferHandle = initializeDownlinkMessageBuffer();
 	
 	//downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
 
@@ -121,7 +121,7 @@ int main() {
 	}
 	mh_z19_initialise(ser_USART3);
 	rc_servo_initialise();
-
+	init_downlink_handler(downLinkMessageBufferHandle);
 	
 	// der må ikke køres kode, når scheduleren er eksiveret
 	vTaskStartScheduler();

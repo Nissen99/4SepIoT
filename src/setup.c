@@ -13,9 +13,10 @@ MessageBufferHandle_t downLinkMessageBufferHandle;
 
 
 
-void initializeDownlinkMessageBuffer()
+MessageBufferHandle_t initializeDownlinkMessageBuffer()
 {
 	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t) * 2);
+	return downLinkMessageBufferHandle;
 }
 
 
