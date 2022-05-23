@@ -24,7 +24,7 @@ void lora_downlink_handler_task( void *pvParameters )
 	{
 	
 		// this code must be in the loop of a FreeRTOS task!
-		xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(int16_t), portMAX_DELAY);
+		xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t) * 2, portMAX_DELAY);
 		
 		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload.portNo, downlinkPayload.len); // Just for Debug
 		

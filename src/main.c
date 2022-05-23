@@ -30,8 +30,7 @@
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
 
- extern MessageBufferHandle_t downlinkMessageBuffer;
-
+ 
 
 
 
@@ -45,7 +44,12 @@ TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
 
+
+
+//extern MessageBufferHandle_t downlinkMessageBuffer;
+
 MessageBufferHandle_t downLinkMessageBufferHandle;
+
 int main() {
 	
 	// Here I make room for two downlink messages in the message buffer TODO
@@ -77,7 +81,7 @@ int main() {
 	// for at printe ud skal dette her med ( header filen "stdio_driver.h" skal includes
 	stdio_initialise(ser_USART0);
 	
-	initializeDownlinkMessageBuffer();
+	downLinkMessageBufferHandle = initializeDownlinkMessageBuffer();
 	
 	//downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
 

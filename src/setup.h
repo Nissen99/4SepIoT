@@ -15,4 +15,4 @@
 extern MessageBufferHandle_t downLinkMessageBufferHandle;
 
 
-void initializeDownlinkMessageBuffer();
+MessageBufferHandle_t initializeDownlinkMessageBuffer();
