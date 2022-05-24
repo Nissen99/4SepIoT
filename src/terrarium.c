@@ -28,7 +28,6 @@ typedef struct Terrariumdata {
 } Terrariumdata;
 
 
-
 void updateTerrariumTemperature(float temp )
 {
 	temperature += temp;
@@ -36,13 +35,11 @@ void updateTerrariumTemperature(float temp )
 
 }
 
-
 void updateTerrariumHumidity(float hum)
 {
 	humidity += hum;
 	humidityCount++;
 }
-
 
 
 int16_t getTerrariumTemp(Terrariumdata_p terrariumdata)
@@ -56,7 +53,6 @@ int16_t getTerrariumHum(Terrariumdata_p terrariumdata)
 
 	return terrariumdata->humidity;
 }
-
 
 void updateTerrariumCO2(uint16_t co2val)
 {
@@ -93,7 +89,6 @@ void resetData(){
 	isFed = 0;
 	printf("Data reset \n");
 }
-
 
 Terrariumdata_p prepareTerrariumData()
 {
