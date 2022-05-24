@@ -20,7 +20,6 @@
 #include "serial.h"
 #include "stdio_driver.h"
 #include "lora_driver.h"
-#include "co2Sensor.h"
 #include "mh_z19.h"
 #include "rc_servo.h"
 #include <message_buffer.h>
@@ -29,14 +28,11 @@
 #include "tempHumSensor.h"
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
-
- 
-
+#include "co2Sensor.h"
 
 
 //definere vores min og maks ( vha. FreeRTOS)
 #define TEMP_TASK_PRIORITY (configMAX_PRIORITIES - 3)
-
 
 //task setup
 TaskHandle_t tempHumSensorHandle = NULL;
@@ -44,9 +40,6 @@ TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
 
-
-
-//extern MessageBufferHandle_t downlinkMessageBuffer;
 
 MessageBufferHandle_t downLinkMessageBufferHandle;
 
