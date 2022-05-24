@@ -123,7 +123,7 @@ int main() {
 	rc_servo_initialise();
 	init_downlink_handler(downLinkMessageBufferHandle);
 	
-	// der må ikke køres kode, når scheduleren er eksiveret
+	// der må ikke køres kode, når scheduleren er eksekveret
 	vTaskStartScheduler();
 
 		while (1)

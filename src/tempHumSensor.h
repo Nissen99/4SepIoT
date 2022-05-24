@@ -6,3 +6,4 @@
  */ 
 
 void tempHumSensorTask(void* pvParameters);
+inline void run();
