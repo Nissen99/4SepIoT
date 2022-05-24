@@ -28,6 +28,8 @@ inline void run()
 	}
 	vTaskDelay(5);
 
+	
+	
 	float temperature = hih8120_getTemperature();
 	float humidity =  hih8120_getHumidity();
 
@@ -39,7 +41,9 @@ inline void run()
 	
 	xSemaphoreGive(semaphore);
 
-	printf("Temperature: %dC° \n",(int)temperature);
+	xSemaphoreGive(semaphore);
+	
+	printf("Temperature: %dCÂ° \n",(int)temperature);
 	printf("Humidity: %d%% \n",(int)humidity);
 
 	vTaskDelay(500);
@@ -48,7 +52,7 @@ inline void run()
 void tempHumSensorTask(void* pvParameters) {
 	(void)pvParameters;
 
-	//her laver vi vores temperature målinger med 100ms delay
+	//her laver vi vores temperature mÃ¥linger med 100ms delay
 	while(1) {
 		run();
 		
@@ -56,31 +60,3 @@ void tempHumSensorTask(void* pvParameters) {
 
 	vTaskDelete(NULL);
 }
-
-//
-//float messureTemp()
-//{
-	//int returnCode = hih8120_wakeup();
-	//if(returnCode!= HIH8120_OK && returnCode != HIH8120_TWI_BUSY) {
-		//printf("Temperature wakeup error: %d\n", returnCode);
-	//}
-//
-	//vTaskDelay(100);
-	//returnCode = hih8120_measure();
-	//if (returnCode != HIH8120_OK && returnCode != HIH8120_TWI_BUSY) {
-		//printf("Temperature measure error: %d\n", returnCode);
-//
-	//}
-	//vTaskDelay(5);
-//
-//
-	////semaphore:
-	////xSemaphoreTake(semaphore, portMAX_DELAY);
-//
-	//float temperature = hih8120_getTemperature();
-	//printf("Temperature: %f C°\n",temperature);
-//
-	////xSemaphoreGive(semaphore);
-//
-	//return     temperature;
-//}
