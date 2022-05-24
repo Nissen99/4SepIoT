@@ -6,3 +6,5 @@
  *  Author: Mikkel
  */ 
 void co2SensorTask(void* pvParameters);
+inline void run();
+inline void init();
