@@ -40,8 +40,6 @@ inline void run()
 	updateTerrariumHumidity(humidity);
 	
 	xSemaphoreGive(semaphore);
-
-	xSemaphoreGive(semaphore);
 	
 	printf("Temperature: %dC° \n",(int)temperature);
 	printf("Humidity: %d%% \n",(int)humidity);
