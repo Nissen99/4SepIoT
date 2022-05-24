@@ -6,4 +6,3 @@
  */ 
 
 void tempHumSensorTask(void* pvParameters);
-//float messureTemp();
