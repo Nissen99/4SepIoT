@@ -23,7 +23,7 @@ inline void run()
 
 	vTaskDelay(100);
 	returnCode = hih8120_measure();
-	if (returnCode != HIH8120_OK && returnCode != HIH8120_TWI_BUSY) {
+	if (returnCode != HIH8120_OK) {
 		printf("Temperature measure error: %d\n", returnCode);
 		return;
 	}
