@@ -20,7 +20,7 @@
 #define LORA_appKEY "D951DC87A928E70B1C2EDD116E87352F"
 
 static char _out_buf[100];
-Terrariumdata_p terrariumdata;
+
 
 void lora_handler_task( void *pvParameters );
 
