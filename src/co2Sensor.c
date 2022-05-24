@@ -13,8 +13,6 @@
 inline void run(uint16_t *ppm)
 {
 
-	xSemaphoreTake(semaphore, portMAX_DELAY);
-	
 	mh_z19_returnCode_t rc = mh_z19_takeMeassuring();
 	if(rc != MHZ19_OK) {
 		printf("CO2 sensor FAIL: %d", rc);
@@ -31,11 +29,15 @@ inline void run(uint16_t *ppm)
 		return;
 	}
 	
+	xSemaphoreTake(semaphore, portMAX_DELAY);
+	
 	updateTerrariumCO2(*ppm);
 	
-	printf("CO2 level : %d ppm \n", (int) *ppm);
 	
 		xSemaphoreGive(semaphore);
+
+			printf("CO2 level : %d ppm \n", (int) *ppm);
+
 
 	vTaskDelay(500);
 
