@@ -25,17 +25,6 @@ Terrariumdata_p terrariumdata;
 void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
-//(const  portCHAR *
-//void lora_handler_create(UBaseType_t lora_handler_task_priority)
-//{
-	//xTaskCreate(
-	//lora_handler_task
-	//, "LRHand" // A name just for humans
-	//,  configMINIMAL_STACK_SIZE+200  // This stack size can be checked & adjusted by reading the Stack Highwater
-	//,  NULL
-	//,  lora_handler_task_priority  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	//,  NULL );
-//}
 
 static void _lora_setup(void)
 {
@@ -137,8 +126,9 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 	
 	xSemaphoreTake(semaphore, portMAX_DELAY);
 	
-	
 	Terrariumdata_p terrariumdata = prepareTerrariumData();
+	
+	xSemaphoreGive(semaphore);
 	
 	int16_t temp = getTerrariumTemp(terrariumdata);
 	int16_t hum = getTerrariumHum(terrariumdata);
@@ -161,7 +151,6 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
 
 	status_leds_shortPuls(led_ST4);  // OPTIONAL
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-	xSemaphoreGive(semaphore);
 }
 
 /*-----------------------------------------------------------*/

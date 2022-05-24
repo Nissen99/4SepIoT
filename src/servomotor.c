@@ -8,6 +8,7 @@
 
 #include "servomotor.h"
 #include "rc_servo.h"
+#include <stdio.h>
 
 void rotate180Servo(){
 	
