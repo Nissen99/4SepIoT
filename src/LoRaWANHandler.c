@@ -14,6 +14,7 @@
 #include <status_leds.h>
 
 #include "terrarium.h"
+#include "LoRaWANHandler.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "2E20554EE0BE7265"
@@ -26,7 +27,7 @@ void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
 
-static void _lora_setup(void)
+void _lora_setup(void)
 {
 	lora_driver_returnCode_t rc;
 	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa

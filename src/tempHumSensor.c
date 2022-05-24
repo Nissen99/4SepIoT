@@ -18,13 +18,14 @@ inline void run()
 	int returnCode = hih8120_wakeup();
 	if(returnCode!= HIH8120_OK && returnCode != HIH8120_TWI_BUSY) {
 		printf("Temperature wakeup error: %d\n", returnCode);
+		return;
 	}
 
 	vTaskDelay(100);
 	returnCode = hih8120_measure();
 	if (returnCode != HIH8120_OK && returnCode != HIH8120_TWI_BUSY) {
 		printf("Temperature measure error: %d\n", returnCode);
-
+		return;
 	}
 	vTaskDelay(5);
 
