@@ -49,7 +49,6 @@ inline void run()
 }
 
 void tempHumSensorTask(void* pvParameters) {
-	(void)pvParameters;
 
 	//her laver vi vores temperature målinger med 100ms delay
 	while(1) {
