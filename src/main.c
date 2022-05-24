@@ -81,7 +81,7 @@ int main() {
 	// for at printe ud skal dette her med ( header filen "stdio_driver.h" skal includes
 	stdio_initialise(ser_USART0);
 	
-	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t) * 2);
+	downLinkMessageBufferHandle = initializeDownlinkMessageBuffer();
 	
 	//downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
 
