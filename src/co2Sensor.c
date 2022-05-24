@@ -9,6 +9,7 @@
 #include "terrarium.h"
 #include "mh_z19.h"
 
+static uint16_t ppm;
 
 inline void run(uint16_t *ppm)
 {
@@ -42,11 +43,15 @@ inline void run(uint16_t *ppm)
 
 }
 
+inline void init() {
+	ppm = pvPortMalloc(sizeof(uint16_t));
+}
+
 
 void co2SensorTask(void* pvParameters) {
 	(void)pvParameters;
 	
-	uint16_t ppm = pvPortMalloc(sizeof(uint16_t));
+	init();
 	
 	//her laver vi vores temperature målinger med 100ms delay
 	while(1) {
