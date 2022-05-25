@@ -122,7 +122,7 @@ inline void loraHandlerRun(TickType_t xLastWakeTime, const TickType_t xFrequency
 {
 	//xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	//const TickType_t xDelay = 3000;
-	vTaskDelay(pdMS_TO_TICKS(10000));
+	vTaskDelay(pdMS_TO_TICKS(300000));
 	
 	
 	Terrariumdata_p terrariumdata = prepareTerrariumData();
