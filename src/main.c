@@ -29,6 +29,7 @@
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
 #include "co2Sensor.h"
+#include "terrarium.h"
 
 
 //definere vores min og maks ( vha. FreeRTOS)
@@ -60,14 +61,14 @@ int main() {
 	
 	
 	// Innitalisere
-	semaphore = xSemaphoreCreateMutex();
 	
 	lora_driver_initialise(ser_USART1,downLinkMessageBufferHandle);
-
+	
 	if(HIH8120_OK !=  hih8120_initialise()) {
 		printf("Failed to initialize temperature sensor\n");
 		return 1;
 	}
+	initTerrarium();
 	
 	mh_z19_initialise(ser_USART3);
 	rc_servo_initialise();

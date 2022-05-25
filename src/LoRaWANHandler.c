@@ -125,11 +125,8 @@ inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
 	vTaskDelay(pdMS_TO_TICKS(10000));
 	
 	
-	xSemaphoreTake(semaphore, portMAX_DELAY);
-	
 	Terrariumdata_p terrariumdata = prepareTerrariumData();
 	
-	xSemaphoreGive(semaphore);
 	
 	int16_t temp = getTerrariumTemp(terrariumdata);
 	int16_t hum = getTerrariumHum(terrariumdata);
