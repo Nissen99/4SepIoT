@@ -34,5 +34,4 @@ void resetData();
 
 Terrariumdata_p prepareTerrariumData();
 
-SemaphoreHandle_t semaphore;
-
+void initTerrarium();

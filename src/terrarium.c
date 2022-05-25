@@ -18,6 +18,12 @@ int static co2Count;
 
 int8_t static isFed;
 
+SemaphoreHandle_t semaphore;
+
+void initTerrarium(){
+	semaphore = xSemaphoreCreateMutex();
+}
+
 typedef struct Terrariumdata {
 	int16_t  temperature;
 	int16_t  humidity;
@@ -30,21 +36,25 @@ typedef struct Terrariumdata {
 
 void updateTerrariumTemperature(float temp )
 {
+	xSemaphoreTake(semaphore, portMAX_DELAY);
 	temperature += temp;
 	temperatureCount++;
+	xSemaphoreGive(semaphore);
 
 }
 
 void updateTerrariumHumidity(float hum)
 {
+	xSemaphoreTake(semaphore, portMAX_DELAY);
 	humidity += hum;
 	humidityCount++;
+	xSemaphoreGive(semaphore);
+
 }
 
 
 int16_t getTerrariumTemp(Terrariumdata_p terrariumdata)
 {
-
 	return terrariumdata->temperature;
 }
 
@@ -56,11 +66,10 @@ int16_t getTerrariumHum(Terrariumdata_p terrariumdata)
 
 void updateTerrariumCO2(uint16_t co2val)
 {
-	
-	//printf("1. Co2 i updateTerrariumCo2: %d", co2);
+	xSemaphoreTake(semaphore, portMAX_DELAY);
 	co2 += co2val;
 	co2Count++;	
-	//printf("2. Co2 i updateTerrariumCo2: %d", co2);
+	xSemaphoreGive(semaphore);
 }
 
 uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
@@ -88,6 +97,7 @@ void resetData(){
 	co2Count = 0;
 	isFed = 0;
 	printf("Data reset \n");
+
 }
 
 Terrariumdata_p prepareTerrariumData()
@@ -101,6 +111,8 @@ Terrariumdata_p prepareTerrariumData()
 	}
 
 	printf("succes");
+	
+	xSemaphoreTake(semaphore, portMAX_DELAY);
 
 
 	float tempAvg =  temperature/temperatureCount;
@@ -111,12 +123,14 @@ Terrariumdata_p prepareTerrariumData()
 	
 	uint16_t co2Avg = (uint16_t) co2/co2Count;
 	
+	
+	resetData();
+	xSemaphoreGive(semaphore);
+	
 	newTerrarium->temperature = tempAvgX10;
 	newTerrarium->humidity = humAvgX10;
 	newTerrarium->co2 = co2Avg;
 	newTerrarium->isFed = isFed;
-	
-	resetData();
 
 	return newTerrarium;
 

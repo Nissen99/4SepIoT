@@ -35,12 +35,10 @@ inline void run()
 	float humidity =  hih8120_getHumidity();
 
 
-	xSemaphoreTake(semaphore, portMAX_DELAY);
 
 	updateTerrariumTemperature(temperature);
 	updateTerrariumHumidity(humidity);
 	
-	xSemaphoreGive(semaphore);
 	
 	printf("Temperature: %dC° \n",(int)temperature);
 	printf("Humidity: %d%% \n",(int)humidity);

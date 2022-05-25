@@ -31,11 +31,9 @@ inline void run(uint16_t *ppm)
 	}
 	
 
-	xSemaphoreTake(semaphore, portMAX_DELAY);
 	
 	updateTerrariumCO2(*ppm);
 	
-	xSemaphoreGive(semaphore);
 
 	printf("CO2 level : %d ppm \n", (int) *ppm);
 
