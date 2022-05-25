@@ -30,7 +30,6 @@ typedef struct Terrariumdata {
 	uint16_t  co2;
 	int8_t isFed;
 
-
 } Terrariumdata;
 
 
@@ -82,10 +81,11 @@ int8_t getTerrariumIsFed(Terrariumdata_p terrariumdata) {
 }
 
 void feedAnimalTerrarium(){
-	
+	xSemaphoreTake(semaphore, portMAX_DELAY);
 	printf("Animal feed i Terrarium \n");
 	rotate180Servo();
 	isFed = 1;
+	xSemaphoreGive(semaphore);
 }
 
 void resetData(){
@@ -113,7 +113,6 @@ Terrariumdata_p prepareTerrariumData()
 	printf("succes");
 	
 	xSemaphoreTake(semaphore, portMAX_DELAY);
-
 
 	float tempAvg =  temperature/temperatureCount;
 	int16_t tempAvgX10 = (int16_t) (tempAvg*10);
