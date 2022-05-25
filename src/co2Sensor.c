@@ -11,7 +11,7 @@
 
 static uint16_t ppm;
 
-inline void run(uint16_t *ppm)
+inline void co2SensorRun(uint16_t *ppm)
 {
 
 	mh_z19_returnCode_t rc = mh_z19_takeMeassuring();
@@ -41,7 +41,7 @@ inline void run(uint16_t *ppm)
 
 }
 
-inline void init() {
+inline void co2SensorInit() {
 	ppm = pvPortMalloc(sizeof(uint16_t));
 }
 
@@ -49,11 +49,11 @@ inline void init() {
 void co2SensorTask(void* pvParameters) {
 	(void)pvParameters;
 	
-	init();
+	co2SensorInit();
 	
 	//her laver vi vores temperature målinger med 100ms delay
 	while(1) {
-		run(&ppm);
+		co2SensorRun(&ppm);
 		
 	}
 

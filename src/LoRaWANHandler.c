@@ -99,7 +99,7 @@ void _lora_setup(void)
 	}
 }
 
-inline void init()
+inline void loraHandlerInit()
 {
 	printf("kommer vi her i lora handler task?");
 	
@@ -118,7 +118,7 @@ inline void init()
 	_uplink_payload.portNo = 2;
 }
 
-inline void run(TickType_t xLastWakeTime, const TickType_t xFrequency)
+inline void loraHandlerRun(TickType_t xLastWakeTime, const TickType_t xFrequency)
 {
 	//xTaskDelayUntil( &xLastWakeTime, xFrequency );
 	//const TickType_t xDelay = 3000;
@@ -154,7 +154,7 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
 /*-----------------------------------------------------------*/
 void lora_handler_task( void *pvParameters )
 {
-	init();
+	loraHandlerInit();
 	
 
 	TickType_t xLastWakeTime;
@@ -164,7 +164,7 @@ void lora_handler_task( void *pvParameters )
 	for(;;)
 	{
 		
-		run(xLastWakeTime, xFrequency);
+		loraHandlerRun(xLastWakeTime, xFrequency);
 		
 	}
 	

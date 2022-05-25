@@ -13,7 +13,7 @@
 
 
 
-inline void run()
+inline void tempHumSensorRun()
 {
 	int returnCode = hih8120_wakeup();
 	if(returnCode!= HIH8120_OK && returnCode != HIH8120_TWI_BUSY) {
@@ -50,7 +50,7 @@ void tempHumSensorTask(void* pvParameters) {
 
 	//her laver vi vores temperature målinger med 100ms delay
 	while(1) {
-		run();
+		tempHumSensorRun();
 		
 	}
 
