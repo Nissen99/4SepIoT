@@ -43,7 +43,7 @@ inline void tempHumSensorRun()
 	printf("Temperature: %dC° \n",(int)temperature);
 	printf("Humidity: %d%% \n",(int)humidity);
 
-	vTaskDelay(500);
+	vTaskDelay(pdMS_TO_TICKS(10000));
 }
 
 void tempHumSensorTask(void* pvParameters) {

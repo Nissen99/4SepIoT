@@ -37,7 +37,7 @@ inline void co2SensorRun(uint16_t *ppm)
 
 	printf("CO2 level : %d ppm \n", (int) *ppm);
 
-  vTaskDelay(500);
+  vTaskDelay(pdMS_TO_TICKS(10000));
 
 }
 
