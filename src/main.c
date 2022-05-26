@@ -14,7 +14,6 @@
 #include <task.h>
 #include <serial.h>
 #include <time.h>
-#include <interrupt.h>
 
 //include drivers
 #include "hih8120.h"
