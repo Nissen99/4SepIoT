@@ -127,6 +127,7 @@ inline void loraHandlerRun(TickType_t xLastWakeTime, const TickType_t xFrequency
 	int16_t hum = getTerrariumHum(terrariumdata);
 	uint16_t co2 = getTerrariumCO2(terrariumdata);
 	int8_t isFed = getTerrariumIsFed(terrariumdata);
+	free(terrariumdata);
 
 printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
 
@@ -143,6 +144,7 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
 	_uplink_payload.bytes[10] = isFed;
 
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+	
 }
 
 /*-----------------------------------------------------------*/
