@@ -1,4 +1,5 @@
-
+#include <stdio.h>
+#include <stdint.h>
 /*
  * co2Sensor.h
  *
@@ -6,5 +7,5 @@
  *  Author: Mikkel
  */ 
 void co2SensorTask(void* pvParameters);
-inline void co2SensorRun();
+inline void co2SensorRun(uint16_t *ppm);
 inline void co2SensorInit();

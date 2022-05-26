@@ -11,6 +11,7 @@
 
 static uint16_t ppm;
 
+
 inline void co2SensorRun(uint16_t *ppm)
 {
 

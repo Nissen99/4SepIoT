@@ -24,6 +24,7 @@ void lora_downlink_handler_task( void *pvParameters )
 		
 	for(;;)
 	{
+		
 	
 		// this code must be in the loop of a FreeRTOS task!
 		xMessageBufferReceive(downLinkMessageBuffer, downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
@@ -37,7 +38,7 @@ void lora_downlink_handler_task( void *pvParameters )
 			
 		feedAnimalTerrarium();
 		
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(pdMS_TO_TICKS(4000));
 		
 		resetAnimalFeeder();
 		
