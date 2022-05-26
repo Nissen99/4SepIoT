@@ -15,34 +15,46 @@ MessageBufferHandle_t downLinkMessageBuffer;
 lora_driver_payload_t* downlinkPayload;
 
 
+inline void loraDownlinkRun()
+{
+	// this code must be in the loop of a FreeRTOS task!
+	xMessageBufferReceive(downLinkMessageBuffer, downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+	
+	
+	printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload->portNo, downlinkPayload->len); // Just for Debug
+	
+	
+	if (1 == downlinkPayload->portNo) // Check that we have got the expected 4 bytes
+	{
+		
+	feedAnimalTerrarium();
+	
+	vTaskDelay(pdMS_TO_TICKS(4000));
+	
+	resetAnimalFeeder();
+	
+	}
+}
+
+inline void loraDownlinkInit()
+{
+	printf("Downlink task startet");
+	
+	resetAnimalFeeder();
+}
+
 /*-----------------------------------------------------------*/
 void lora_downlink_handler_task( void *pvParameters )
 {
-		printf("Downlink task startet");
+		loraDownlinkInit();
 		
-		resetAnimalFeeder();
 		
 	for(;;)
 	{
 		
 	
-		// this code must be in the loop of a FreeRTOS task!
-		xMessageBufferReceive(downLinkMessageBuffer, downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+		loraDownlinkRun();
 		
-		
-		printf("DOWN LINK: from port: %d with %d bytes received!", downlinkPayload->portNo, downlinkPayload->len); // Just for Debug
-		
-		
-		if (1 == downlinkPayload->portNo) // Check that we have got the expected 4 bytes
-		{
-			
-		feedAnimalTerrarium();
-		
-		vTaskDelay(pdMS_TO_TICKS(4000));
-		
-		resetAnimalFeeder();
-		
-		}
 		
 	}
 
