@@ -127,6 +127,11 @@ inline void loraHandlerRun(TickType_t xLastWakeTime, const TickType_t xFrequency
 	
 	Terrariumdata_p terrariumdata = prepareTerrariumData();
 	
+	if (terrariumdata == NULL)
+	{
+		printf("could not allocate memory in terrarium.c \n" );
+		return;
+	}
 	
 	int16_t temp = getTerrariumTemp(terrariumdata);
 	int16_t hum = getTerrariumHum(terrariumdata);
