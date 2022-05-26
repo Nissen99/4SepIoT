@@ -7,4 +7,5 @@
  */ 
 
 
-void rotate180Servo();
+void rotateFullyRight();
+void rotateFullyLeft();
