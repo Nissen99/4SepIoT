@@ -20,10 +20,6 @@ int8_t static isFed;
 
 SemaphoreHandle_t semaphore;
 
-void initTerrarium(){
-	semaphore = xSemaphoreCreateMutex();
-}
-
 typedef struct Terrariumdata {
 	int16_t  temperature;
 	int16_t  humidity;
@@ -31,6 +27,10 @@ typedef struct Terrariumdata {
 	int8_t isFed;
 
 } Terrariumdata;
+
+void initTerrarium(){
+	semaphore = xSemaphoreCreateMutex();
+}
 
 
 void updateTerrariumTemperature(float temp )
@@ -51,6 +51,14 @@ void updateTerrariumHumidity(float hum)
 
 }
 
+void updateTerrariumCO2(uint16_t co2val)
+{
+	xSemaphoreTake(semaphore, portMAX_DELAY);
+	co2 += co2val;
+	co2Count++;
+	xSemaphoreGive(semaphore);
+}
+
 
 int16_t getTerrariumTemp(Terrariumdata_p terrariumdata)
 {
@@ -63,13 +71,6 @@ int16_t getTerrariumHum(Terrariumdata_p terrariumdata)
 	return terrariumdata->humidity;
 }
 
-void updateTerrariumCO2(uint16_t co2val)
-{
-	xSemaphoreTake(semaphore, portMAX_DELAY);
-	co2 += co2val;
-	co2Count++;	
-	xSemaphoreGive(semaphore);
-}
 
 uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
 {
@@ -95,6 +96,7 @@ void resetAnimalFeeder(){
 }
 
 void resetData(){
+	xSemaphoreTake(semaphore, portMAX_DELAY);
 	temperature = 0.0;
 	temperatureCount = 0;
 	humidity = 0.0;
@@ -102,6 +104,7 @@ void resetData(){
 	co2 = 0;
 	co2Count = 0;
 	isFed = 0;
+	xSemaphoreGive(semaphore);
 	printf("Data reset \n");
 
 }
@@ -119,9 +122,16 @@ Terrariumdata_p prepareTerrariumData()
 	printf("succes");
 	
 	xSemaphoreTake(semaphore, portMAX_DELAY);
+	
+	if (temperatureCount == 0 || humidityCount == 0 || co2Count == 0){
+		printf("Atleast one measurement for each type is required. Returning.");
+		free(newTerrarium);
+		return NULL;
+	} 
 
 	float tempAvg =  temperature/temperatureCount;
 	int16_t tempAvgX10 = (int16_t) (tempAvg*10);
+	
 	
 	float humAvg = humidity/humidityCount;
 	int16_t humAvgX10 = (int16_t) (humAvg*10);
@@ -130,9 +140,9 @@ Terrariumdata_p prepareTerrariumData()
 	
 	int8_t isFedInt = isFed;
 	
-	resetData();
-	xSemaphoreGive(semaphore);
 	
+	xSemaphoreGive(semaphore);
+	resetData();
 	newTerrarium->temperature = tempAvgX10;
 	newTerrarium->humidity = humAvgX10;
 	newTerrarium->co2 = co2Avg;
