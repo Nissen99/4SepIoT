@@ -122,6 +122,7 @@ Terrariumdata_p prepareTerrariumData()
 	
 	uint16_t co2Avg = (uint16_t) co2/co2Count;
 	
+	int8_t isFedInt = isFed;
 	
 	resetData();
 	xSemaphoreGive(semaphore);
@@ -129,7 +130,7 @@ Terrariumdata_p prepareTerrariumData()
 	newTerrarium->temperature = tempAvgX10;
 	newTerrarium->humidity = humAvgX10;
 	newTerrarium->co2 = co2Avg;
-	newTerrarium->isFed = isFed;
+	newTerrarium->isFed = isFedInt;
 
 	return newTerrarium;
 
