@@ -20,6 +20,7 @@ void lora_downlink_handler_task( void *pvParameters )
 {
 		printf("Downlink task startet");
 		
+		resetAnimalFeeder();
 		
 	for(;;)
 	{
@@ -35,6 +36,10 @@ void lora_downlink_handler_task( void *pvParameters )
 		{
 			
 		feedAnimalTerrarium();
+		
+		vTaskDelay(pdMS_TO_TICKS(2000));
+		
+		resetAnimalFeeder();
 		
 		}
 		

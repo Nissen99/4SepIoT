@@ -83,9 +83,15 @@ int8_t getTerrariumIsFed(Terrariumdata_p terrariumdata) {
 void feedAnimalTerrarium(){
 	xSemaphoreTake(semaphore, portMAX_DELAY);
 	printf("Animal feed i Terrarium \n");
-	rotate180Servo();
+	rotateFullyLeft();
 	isFed = 1;
 	xSemaphoreGive(semaphore);
+}
+
+void resetAnimalFeeder(){
+	rotateFullyRight();
+	printf("Animal feed i Terrarium RESET \n");
+
 }
 
 void resetData(){

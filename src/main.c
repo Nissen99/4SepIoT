@@ -72,7 +72,6 @@ int main() {
 	
 	mh_z19_initialise(ser_USART3);
 	rc_servo_initialise();
-	rc_servo_setPosition(1, 100);
 	init_downlink_handler(downLinkMessageBufferHandle);
 	
 	

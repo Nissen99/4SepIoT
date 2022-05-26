@@ -51,7 +51,6 @@ void co2SensorTask(void* pvParameters) {
 	
 	co2SensorInit();
 	
-	//her laver vi vores temperature målinger med 100ms delay
 	while(1) {
 		co2SensorRun(&ppm);
 		

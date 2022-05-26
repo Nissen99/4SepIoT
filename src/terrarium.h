@@ -30,6 +30,9 @@ int8_t getTerrariumIsFed(Terrariumdata_p terrariumdata);
 
 void feedAnimalTerrarium();
 
+void resetAnimalFeeder();
+
+
 void resetData();
 
 Terrariumdata_p prepareTerrariumData();
