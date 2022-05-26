@@ -6,5 +6,5 @@
  *  Author: Mikkel
  */ 
 
-//void lightSensorTask(void* pvParameters);
-//inline void lightSensorRun(uint16_t *ppm);
+void lightSensorTask(void* pvParameters);
+inline void lightSensorRun(uint16_t *ppm);

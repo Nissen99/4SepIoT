@@ -47,6 +47,7 @@ MessageBufferHandle_t downLinkMessageBufferHandle;
 
 int main() {
 	
+	//Interrupt must be enabled with sei() for light sensor (Ibs kode siger der)
 	sei();
 	// Set output ports for leds used in the example
 	//DDRA |= _BV(DDA0) | _BV(DDA7);
