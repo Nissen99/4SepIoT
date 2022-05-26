@@ -14,6 +14,7 @@
 #include <task.h>
 #include <serial.h>
 #include <time.h>
+#include <interrupt.h>
 
 //include drivers
 #include "hih8120.h"
@@ -46,7 +47,7 @@ MessageBufferHandle_t downLinkMessageBufferHandle;
 
 int main() {
 	
-	
+	sei();
 	// Set output ports for leds used in the example
 	//DDRA |= _BV(DDA0) | _BV(DDA7);
 	
