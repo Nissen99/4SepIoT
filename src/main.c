@@ -26,6 +26,7 @@
 
 //header filer for de task vi opretter
 #include "tempHumSensor.h"
+#include "lightSensor.h"
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
 #include "co2Sensor.h"
@@ -40,6 +41,7 @@ TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
+TaskHandle_t lightHandle = NULL;
 
 
 MessageBufferHandle_t downLinkMessageBufferHandle;
@@ -82,6 +84,7 @@ int main() {
 	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
 	xTaskCreate(co2SensorTask, "co2Mesurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &co2SensorHandle);
 	xTaskCreate(lora_downlink_handler_task, "loraDownLink", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &loradownlink);
+	xTaskCreate(lightSensorTask, "light Measurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &lightHandle);
 
 
 	// der må ikke køres kode, når scheduleren er eksekveret

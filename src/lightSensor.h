@@ -7,4 +7,4 @@
  */ 
 
 void lightSensorTask(void* pvParameters);
-inline void lightSensorRun(uint16_t *ppm);
+inline void lightSensorRun();

@@ -6,7 +6,6 @@
  *  Author: Mikkel
  */ 
 #include <util/delay.h>
-
 #include "tsl2591.h"
 #include "terrarium.h"
 
@@ -21,6 +20,7 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		case TSL2591_DATA_READY:
 		if ( TSL2591_OK == (rc = tsl2591_getLux(&_lux)) )
 		{
+			updateTerrariumLight(_lux);
 			printf("Lux: %5.4f\n", _lux);
 		}
 		else if( TSL2591_OVERFLOW == rc )
@@ -30,13 +30,8 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		break;
 		
 		case TSL2591_OK:
-		printf("Light Switch: TSL2591_OK, Ready to messure");
+		printf("Light Switch: TSL2591_OK");
 		// Last command performed successful
-		break;
-		
-		case TSL2591_DEV_ID_READY:
-		printf("Light Switch: TSL2591_DEV_ID_READY");
-		// Dev ID now fetched
 		break;
 		
 		case TSL2591_BUSY:
@@ -44,7 +39,7 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		break;
 		
 		default:
-		printf("Something wrong callBack but data not ready ENUM: %d", rc);
+		printf("Something wrong callBack and data not ready ENUM: %d", rc);
 		break;
 	}
 	

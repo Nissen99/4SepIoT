@@ -64,7 +64,11 @@ void updateTerrariumCO2(uint16_t co2val)
 }
 
 void updateTerrariumLight(float lightVal){
+	xSemaphoreTake(semaphore, portMAX_DELAY);
 	light += lightVal;
+	lightCount++;
+	xSemaphoreGive(semaphore);
+
 }
 
 int16_t getTerrariumTemp(Terrariumdata_p terrariumdata)
