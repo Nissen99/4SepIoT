@@ -11,7 +11,6 @@
 #include <semphr.h>
 
 #include <lora_driver.h>
-#include <status_leds.h>
 
 #include "terrarium.h"
 #include "LoRaWANHandler.h"
@@ -23,14 +22,13 @@
 static char _out_buf[100];
 
 
-void lora_handler_task( void *pvParameters );
+//void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
 
 void _lora_setup(void)
 {
 	lora_driver_returnCode_t rc;
-	status_leds_slowBlink(led_ST2); // OPTIONAL: Led the green led blink slowly while we are setting up LoRa
 
 	// Factory reset the transceiver
 	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
@@ -66,8 +64,6 @@ void _lora_setup(void)
 
 		if ( rc != LORA_ACCEPTED)
 		{
-			// Make the red led pulse to tell something went wrong
-			status_leds_longPuls(led_ST1); // OPTIONAL
 			// Wait 5 sec and lets try again
 			vTaskDelay(pdMS_TO_TICKS(5000UL));
 		}
@@ -80,16 +76,10 @@ void _lora_setup(void)
 	if (rc == LORA_ACCEPTED)
 	{
 		// Connected to LoRaWAN :-)
-		// Make the green led steady
-		status_leds_ledOn(led_ST2); // OPTIONAL
 	}
 	else
 	{
 		// Something went wrong
-		// Turn off the green led
-		status_leds_ledOff(led_ST2); // OPTIONAL
-		// Make the red led blink fast to tell something went wrong
-		status_leds_fastBlink(led_ST1); // OPTIONAL
 
 		// Lets stay here
 		while (1)
@@ -152,7 +142,6 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
 	_uplink_payload.bytes[9] = 0;
 	_uplink_payload.bytes[10] = isFed;
 
-	status_leds_shortPuls(led_ST4);  // OPTIONAL
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
 }
 
