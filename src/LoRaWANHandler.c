@@ -1,15 +1,4 @@
-/*
-* loraWANHandler.c
-*
-* Created: 12/04/2019 10:09:05
-*  Author: IHA
-*/
-#include <stddef.h>
-#include <stdio.h>
-
 #include <ATMEGA_FreeRTOS.h>
-#include <semphr.h>
-
 #include <lora_driver.h>
 
 #include "terrarium.h"
@@ -21,11 +10,12 @@
 
 static char _out_buf[100];
 
-
-//void lora_handler_task( void *pvParameters );
-
 static lora_driver_payload_t _uplink_payload;
 
+/************************************************************************/
+/* _lora_setup
+Sørger for at oprette forbindelse til LoraWan med data fra ønskede arduino shield*/
+/************************************************************************/
 void _lora_setup(void)
 {
 	lora_driver_returnCode_t rc;
@@ -89,10 +79,12 @@ void _lora_setup(void)
 	}
 }
 
+/************************************************************************/
+/* loraHandlerInit
+Sørger for at resette LoraWan transceiver og sætter uplink payloaden op */
+/************************************************************************/
 inline void loraHandlerInit()
-{
-	printf("kommer vi her i lora handler task?");
-	
+{	
 	// Hardware reset of LoRaWAN transceiver
 	lora_driver_resetRn2483(1);
 	vTaskDelay(2);
@@ -108,30 +100,35 @@ inline void loraHandlerInit()
 	_uplink_payload.portNo = 2;
 }
 
-inline void loraHandlerRun(TickType_t xLastWakeTime, const TickType_t xFrequency)
+/************************************************************************/
+/* loraHandlerRun
+Sørger for at indsamle data fra terrarium og sender uplink til LoraWan  */
+/************************************************************************/
+inline void loraHandlerRun()
 {
-	//xTaskDelayUntil( &xLastWakeTime, xFrequency );
-	//const TickType_t xDelay = 3000;
-	vTaskDelay(pdMS_TO_TICKS(300000));
 	
+	vTaskDelay(pdMS_TO_TICKS(300000)); //5 min imellem hver afsendelse af data
 	
 	Terrariumdata_p terrariumdata = prepareTerrariumData();
 	
 	if (terrariumdata == NULL)
 	{
-		printf("could not allocate memory in terrarium.c \n" );
+		printf("Could not allocate memory in terrarium.c \n" );
 		return;
 	}
 	
+	//Henter relevant data fra terrarium
 	int16_t temp = getTerrariumTemp(terrariumdata);
 	int16_t hum = getTerrariumHum(terrariumdata);
 	uint16_t co2 = getTerrariumCO2(terrariumdata);
 	int8_t isFed = getTerrariumIsFed(terrariumdata);
 	uint16_t light = getTerrariumLight(terrariumdata);
 	free(terrariumdata);
+	terrariumdata = NULL;
 
-printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d  -   Light: %d\n", temp, hum, co2, isFed, light);
+	printf("Temp: %d - Hum: %d - Co2: %d - IsFed: %d - Light: %d \n", temp, hum, co2, isFed, light);
 
+	//Udfylder uplink payload'en med data fra terrarium
 	_uplink_payload.bytes[0] = temp >> 8;
 	_uplink_payload.bytes[1] = temp & 0xFF;
 	_uplink_payload.bytes[2] = hum >> 8;
@@ -145,7 +142,6 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d  -   Light: %d\n", temp, hum, 
 	_uplink_payload.bytes[10] = isFed;
 
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-	
 }
 
 /*-----------------------------------------------------------*/
@@ -153,17 +149,8 @@ void lora_handler_task( void *pvParameters )
 {
 	loraHandlerInit();
 	
-
-	TickType_t xLastWakeTime;
-	const TickType_t xFrequency = pdMS_TO_TICKS(30000UL); // Upload message every 5 minutes (300000 ms)
-	xLastWakeTime = xTaskGetTickCount();
-	
 	for(;;)
 	{
-		
-		loraHandlerRun(xLastWakeTime, xFrequency);
-		
+		loraHandlerRun();
 	}
-	
-
 }
