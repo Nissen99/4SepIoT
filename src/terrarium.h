@@ -1,15 +1,7 @@
-/*
- * terrarium.h
- *
- * Created: 20/05/2022 13:25:04
- *  Author: Mikkel
- */ 
-
 #include <stdio.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <semphr.h>
 #include <stdlib.h>
-
 
 // laver struct
 typedef struct Terrariumdata* Terrariumdata_p;
@@ -32,11 +24,9 @@ int8_t getTerrariumIsFed(Terrariumdata_p terrariumdata);
 
 uint16_t getTerrariumLight(Terrariumdata_p terrariumdata);
 
-
 void feedAnimalTerrarium();
 
 void resetAnimalFeeder();
-
 
 void resetData();
 
