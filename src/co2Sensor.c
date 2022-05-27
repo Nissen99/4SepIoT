@@ -17,33 +17,30 @@ og sker i 3 steps:
 2. mh_z19_getCo2Ppm hvor resultatet af målingen gemmes. Dette gemmen gennem en uint16 pointer.
 
 3. updateTerrariumCO2 hvor resultaterne opdateres i terrarium.
-
-
 */
 inline void co2SensorRun(uint16_t *ppm)
 {
-
 	vTaskDelay(pdMS_TO_TICKS(10000));
-
-//step 1
+	
+	//step 1
 	mh_z19_returnCode_t rc = mh_z19_takeMeassuring();
 	if(rc != MHZ19_OK) {
-		printf("CO2 sensor FAIL mh_z19_returnCode_t ENUM: %d \n", rc);
+		printf("CO2 sensor FAIL: %d", rc);
 		return;
 	}
 	
 	vTaskDelay(100);
-
-//step 2	
+	
+	//step 2
 	rc = mh_z19_getCo2Ppm(ppm);
 	
 	if (rc != MHZ19_OK)
 	{
-		printf("CO2 LÆSNING AF sensor FAIL mh_z19_returnCode_t ENUM: %d \n", rc);
+		printf("CO2 LÆSNING AF sensor FAIL: %d", rc);
 		return;
 	}
-
-//step 3
+	
+	//step 3
 	updateTerrariumCO2(*ppm);
 
 	printf("CO2 level : %d ppm \n", (int) *ppm);
@@ -64,11 +61,11 @@ void co2SensorInit() {
 Task oprettet i main og køre run funtionen.
 */
 void co2SensorTask(void* pvParameters) {
-		
+	
 	while(1) {
 		co2SensorRun(&ppm);
+		
 	}
 	printf("Something wrong co2 Task FAILED \n");
 	vTaskDelete(NULL);
 }
-

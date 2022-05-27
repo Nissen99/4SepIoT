@@ -31,15 +31,15 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		break;
 		
 		case TSL2591_OK:
-		printf("Light Switch: TSL2591_OK");
+		printf("Light Switch: TSL2591_OK \n");
 		break;
 		
 		case TSL2591_BUSY:
-		printf("Light sensor busy try again");
+		printf("Light sensor busy try again \n");
 		break;
 		
 		default:
-		printf("Something wrong callBack and data not ready ENUM: %d", rc);
+		printf("Something wrong callBack and data not ready ENUM: %d \n", rc);
 		break;
 	}
 	
@@ -53,9 +53,9 @@ void initLightSensor(){
 	
 	if ( TSL2591_OK == tsl2591_initialise(tsl2591Callback) )
 	{
-		printf("Light Sensor initialised");
+		printf("Light Sensor initialised \n");
 		} else{
-		printf("Light Sensor init failed");
+		printf("Light Sensor init failed \n");
 	}
 	
 }
@@ -71,7 +71,7 @@ inline void lightSensorRun(){
 	vTaskDelay(pdMS_TO_TICKS(10000));
 
 	if(TSL2591_OK != tsl2591_fetchData()){
-		printf("Fetch Data failed Light sensor");
+		printf("Fetch Data failed Light sensor \n");
 		return;
 	}
 
