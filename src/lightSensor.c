@@ -20,7 +20,7 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 	{
 		case TSL2591_DATA_READY:
 		rc = tsl2591_getLux(&_lux);
-		
+
 		if ( TSL2591_OK == rc)
 		{
 			updateTerrariumLight(_lux);
