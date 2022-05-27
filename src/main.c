@@ -78,6 +78,16 @@ int main() {
 	init_downlink_handler(downLinkMessageBufferHandle);
 	
 	
+	if ( TSL2591_OK == tsl2591_initialise(tsl2591Callback) )
+	{
+		printf("Light Sensor initialised");
+		// Driver initilised OK
+		// Always check what tsl2591_initialise() returns
+		} else{
+		printf("Light Sensor init failed");
+	}
+	
+	tsl2591_enable();
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);

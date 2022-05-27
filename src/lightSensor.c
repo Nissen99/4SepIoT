@@ -45,29 +45,18 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 	
 }
 
-void lightSensorInit(){
-	
-	if ( TSL2591_OK == tsl2591_initialise(tsl2591Callback) )
-	{
-		printf("Light Sensor initialised");
-		// Driver initilised OK
-		// Always check what tsl2591_initialise() returns
-	} else{
-		printf("Light Sensor init failed");
-	}
-	
-	tsl2591_enable();
-}
+
 
 
 inline void lightSensorRun(){
 	
+	vTaskDelay(pdMS_TO_TICKS(10000));
+
 	if(TSL2591_OK != tsl2591_fetchData()){
 		printf("Fetch Data failed Light sensor");
 		return;
 	}
 	
-	vTaskDelay(pdMS_TO_TICKS(10000));
 	
 	
 }
@@ -75,7 +64,7 @@ inline void lightSensorRun(){
 void lightSensorTask(void* pvParameters) {
 	(void)pvParameters;
 	
-	lightSensorInit();
+	//lightSensorInit();
 	
 	while(1) {
 		lightSensorRun();

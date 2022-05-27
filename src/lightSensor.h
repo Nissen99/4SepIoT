@@ -8,3 +8,4 @@
 
 void lightSensorTask(void* pvParameters);
 inline void lightSensorRun();
+void tsl2591Callback(tsl2591_returnCode_t rc);
