@@ -9,7 +9,7 @@
 #include "tsl2591.h"
 #include "terrarium.h"
 
-
+void tsl2591Callback(tsl2591_returnCode_t rc);
 
 
 void tsl2591Callback(tsl2591_returnCode_t rc)
@@ -45,7 +45,19 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 	
 }
 
-
+void initLightSensor(){
+	
+	if ( TSL2591_OK == tsl2591_initialise(tsl2591Callback) )
+	{
+		printf("Light Sensor initialised");
+		// Driver initilised OK
+		// Always check what tsl2591_initialise() returns
+		} else{
+		printf("Light Sensor init failed");
+	}
+	
+	tsl2591_enable();
+}
 
 
 inline void lightSensorRun(){
