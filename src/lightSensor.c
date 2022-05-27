@@ -42,7 +42,6 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		printf("Something wrong callBack and data not ready ENUM: %d", rc);
 		break;
 	}
-	free(&_lux);
 	
 }
 

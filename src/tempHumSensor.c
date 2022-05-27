@@ -12,7 +12,7 @@ void initTempHumSensor(){
 	
 	if(HIH8120_OK !=  hih8120_initialise()) {
 		printf("Failed to initialize temperature sensor\n");
-		return 1;
+		return;
 	}
 }
 
