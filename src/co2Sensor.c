@@ -42,15 +42,17 @@ inline void co2SensorRun(uint16_t *ppm)
 
 }
 
-inline void co2SensorInit() {
+void co2SensorInit() {
 	ppm = pvPortMalloc(sizeof(uint16_t));
+	mh_z19_initialise(ser_USART3);
+	
 }
 
 
 void co2SensorTask(void* pvParameters) {
 	(void)pvParameters;
 	
-	co2SensorInit();
+	//co2SensorInit();
 	
 	while(1) {
 		co2SensorRun(&ppm);

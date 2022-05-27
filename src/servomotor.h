@@ -6,6 +6,6 @@
  *  Author: Mikkel
  */ 
 
-
+void initServoMotor();
 void rotateFullyRight();
 void rotateFullyLeft();

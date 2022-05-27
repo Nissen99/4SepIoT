@@ -8,4 +8,4 @@
  */ 
 void co2SensorTask(void* pvParameters);
 inline void co2SensorRun(uint16_t *ppm);
-inline void co2SensorInit();
+void co2SensorInit();
