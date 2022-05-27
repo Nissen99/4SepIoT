@@ -21,7 +21,7 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		if ( TSL2591_OK == (rc = tsl2591_getLux(&_lux)) )
 		{
 			updateTerrariumLight(_lux);
-			printf("Lux: %5.4f\n", _lux);
+			printf("Lux: %d\n",(int) _lux);
 		}
 		else if( TSL2591_OVERFLOW == rc )
 		{
@@ -50,13 +50,13 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 
 inline void lightSensorRun(){
 	
-	vTaskDelay(pdMS_TO_TICKS(10000));
+	vTaskDelay(pdMS_TO_TICKS(5000));
 
 	if(TSL2591_OK != tsl2591_fetchData()){
 		printf("Fetch Data failed Light sensor");
 		return;
 	}
-	
+
 	
 	
 }

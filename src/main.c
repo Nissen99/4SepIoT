@@ -23,6 +23,7 @@
 #include "mh_z19.h"
 #include "rc_servo.h"
 #include <message_buffer.h>
+#include "tsl2591.h"
 
 //header filer for de task vi opretter
 #include "tempHumSensor.h"
