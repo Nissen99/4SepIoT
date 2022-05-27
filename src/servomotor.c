@@ -9,6 +9,10 @@
 #include "rc_servo.h"
 #include <stdio.h>
 
+void initServoMotor(){
+	rc_servo_initialise();
+	
+}
 void rotateFullyRight(){
 	
 	printf("Servo Right Wrrruuuuum \n");

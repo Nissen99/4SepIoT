@@ -16,17 +16,14 @@
 #include <time.h>
 
 //include drivers
-#include "hih8120.h"
 #include "serial.h"
 #include "stdio_driver.h"
 #include "lora_driver.h"
-#include "mh_z19.h"
-#include "rc_servo.h"
 #include <message_buffer.h>
-#include "tsl2591.h"
 
 //header filer for de task vi opretter
 #include "tempHumSensor.h"
+#include "servomotor.h"
 #include "lightSensor.h"
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
@@ -67,28 +64,12 @@ int main() {
 	// Innitalisere
 	
 	lora_driver_initialise(ser_USART1,downLinkMessageBufferHandle);
-	
-	if(HIH8120_OK !=  hih8120_initialise()) {
-		printf("Failed to initialize temperature sensor\n");
-		return 1;
-	}
-	initTerrarium();
-	
-	mh_z19_initialise(ser_USART3);
-	rc_servo_initialise();
 	init_downlink_handler(downLinkMessageBufferHandle);
 	
+	initServoMotor();
+	initTerrarium();
 	
-	if ( TSL2591_OK == tsl2591_initialise(tsl2591Callback) )
-	{
-		printf("Light Sensor initialised");
-		// Driver initilised OK
-		// Always check what tsl2591_initialise() returns
-		} else{
-		printf("Light Sensor init failed");
-	}
 	
-	tsl2591_enable();
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);

@@ -11,7 +11,13 @@
 #include "hih8120.h"
 #include "terrarium.h"
 
-
+void initTempHumSensor(){
+	
+	if(HIH8120_OK !=  hih8120_initialise()) {
+		printf("Failed to initialize temperature sensor\n");
+		return;
+	}
+}
 
 inline void tempHumSensorRun()
 {
@@ -48,6 +54,7 @@ inline void tempHumSensorRun()
 
 void tempHumSensorTask(void* pvParameters) {
 
+	initTempHumSensor();
 	//her laver vi vores temperature målinger med 100ms delay
 	while(1) {
 		tempHumSensorRun();
