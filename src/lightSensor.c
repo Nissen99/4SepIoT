@@ -56,7 +56,6 @@ void initLightSensor(){
 		printf("Light Sensor init failed");
 	}
 	
-	tsl2591_enable();
 }
 
 
@@ -77,6 +76,8 @@ void lightSensorTask(void* pvParameters) {
 	(void)pvParameters;
 	
 	//lightSensorInit();
+	vTaskDelay(pdMS_TO_TICKS(3000));
+	tsl2591_enable();
 	
 	while(1) {
 		lightSensorRun();
