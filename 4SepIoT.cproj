@@ -294,6 +294,12 @@
     <Compile Include="src\co2Sensor.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\lightSensor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lightSensor.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\lorawanDownlinkHandler.c">
       <SubType>compile</SubType>
     </Compile>

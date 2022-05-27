@@ -20,7 +20,11 @@ void updateTerrariumHumidity(float hum);
 
 void updateTerrariumCO2(uint16_t co2);
 
+void updateTerrariumLight(float light);
+
 int16_t getTerrariumHum(Terrariumdata_p terrariumdata);
+
+uint16_t getTerrariumLight(Terrariumdata_p terrariumdata);
 
 int16_t getTerrariumTemp(Terrariumdata_p terrariumdata);
 

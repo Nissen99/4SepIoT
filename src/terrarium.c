@@ -10,6 +10,9 @@
 float static temperature;
 int static temperatureCount;
 
+float static light;
+int static lightCount;
+
 float static humidity;
 int static humidityCount;
 
@@ -24,12 +27,24 @@ typedef struct Terrariumdata {
 	int16_t  temperature;
 	int16_t  humidity;
 	uint16_t  co2;
+	int16_t light;
 	int8_t isFed;
 
 } Terrariumdata;
 
 void initTerrarium(){
 	semaphore = xSemaphoreCreateMutex();
+}
+
+
+
+void updateTerrariumLight(float light)
+{
+	xSemaphoreTake(semaphore, portMAX_DELAY);
+	light += light;
+	lightCount++;
+	xSemaphoreGive(semaphore);
+
 }
 
 
@@ -71,6 +86,12 @@ int16_t getTerrariumHum(Terrariumdata_p terrariumdata)
 	return terrariumdata->humidity;
 }
 
+
+uint16_t getTerrariumLight(Terrariumdata_p terrariumdata)
+{
+	return terrariumdata->light;
+
+}
 
 uint16_t getTerrariumCO2(Terrariumdata_p terrariumdata)
 {
@@ -123,7 +144,7 @@ Terrariumdata_p prepareTerrariumData()
 	
 	xSemaphoreTake(semaphore, portMAX_DELAY);
 	
-	if (temperatureCount == 0 || humidityCount == 0 || co2Count == 0){
+	if (temperatureCount == 0 || humidityCount == 0 || co2Count == 0 || lightCount==0){
 		printf("Atleast one measurement for each type is required. Returning.");
 		free(newTerrarium);
 		return NULL;
@@ -137,6 +158,8 @@ Terrariumdata_p prepareTerrariumData()
 	int16_t humAvgX10 = (int16_t) (humAvg*10);
 	
 	uint16_t co2Avg = (uint16_t) co2/co2Count;
+	
+	
 	
 	int8_t isFedInt = isFed;
 	

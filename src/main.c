@@ -22,6 +22,7 @@
 #include "lora_driver.h"
 #include "mh_z19.h"
 #include "rc_servo.h"
+#include "tsl2591.h"
 #include <message_buffer.h>
 
 //header filer for de task vi opretter
@@ -29,17 +30,24 @@
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
 #include "co2Sensor.h"
+#include "lightSensor.h"
 #include "terrarium.h"
 
 
 //definere vores min og maks ( vha. FreeRTOS)
-#define TEMP_TASK_PRIORITY (configMAX_PRIORITIES - 3)
+#define LORAUP_TASK_PRIORITY   (configMAX_PRIORITIES - 1)
+#define LORADOWN_TASK_PRIORITY   (configMAX_PRIORITIES - 3)
+#define TEMPHUM_TASK_PRIORITY (configMAX_PRIORITIES - 3)
+#define CO2_TASK_PRIORITY (configMAX_PRIORITIES - 3)
+#define LIGHT_TASK_PRIORITY (configMAX_PRIORITIES - 3)
+#define SERVO_TASK_PRIORITY (configMAX_PRIORITIES - 3)
 
 //task setup
 TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
+TaskHandle_t lightSensorHandle = NULL;
 
 
 MessageBufferHandle_t downLinkMessageBufferHandle;
@@ -68,8 +76,12 @@ int main() {
 		printf("Failed to initialize temperature sensor\n");
 		return 1;
 	}
-	initTerrarium();
 	
+	//if(TSL2591_OK != tsl2591_initialise(void*)) {
+		//printf("Failed to initialize light sensor: %d\n");
+		//return 1;
+	//}
+	initTerrarium();
 	mh_z19_initialise(ser_USART3);
 	rc_servo_initialise();
 	init_downlink_handler(downLinkMessageBufferHandle);
@@ -77,10 +89,13 @@ int main() {
 	
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
-	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
-	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
-	xTaskCreate(co2SensorTask, "co2Mesurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &co2SensorHandle);
-	xTaskCreate(lora_downlink_handler_task, "loraDownLink", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &loradownlink);
+	
+	xTaskCreate(tempHumSensorTask, "TemperatureMeasurement", configMINIMAL_STACK_SIZE, NULL, TEMPHUM_TASK_PRIORITY, &tempHumSensorHandle);
+	xTaskCreate(lora_handler_task, "loRaUpLink", configMINIMAL_STACK_SIZE, NULL,LORAUP_TASK_PRIORITY, &loRaWanHandle);
+	xTaskCreate(co2SensorTask, "co2Mesurement", configMINIMAL_STACK_SIZE, NULL,CO2_TASK_PRIORITY, &co2SensorHandle);
+	xTaskCreate(lora_downlink_handler_task, "loraDownLink", configMINIMAL_STACK_SIZE, NULL,LORADOWN_TASK_PRIORITY, &loradownlink);
+	xTaskCreate(lightSensorTask, "LightMeasurement", configMINIMAL_STACK_SIZE, NULL, LIGHT_TASK_PRIORITY, &lightSensorHandle);
+	
 
 
 	// der må ikke køres kode, når scheduleren er eksekveret
