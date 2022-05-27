@@ -1,17 +1,18 @@
 
-/*
- * lightSensor.c
- *
- * Created: 26/05/2022 20:01:42
- *  Author: Mikkel
- */ 
 #include <util/delay.h>
 #include "tsl2591.h"
 #include "terrarium.h"
 
+//definere call back funtionen så den kan bruges i init
 void tsl2591Callback(tsl2591_returnCode_t rc);
 
+/*
+Call back funtion bliver givet med i opsætning af sensor. 
 
+Denne funtion bliver primært kaldt når sensoren har data klar efter fetch_data();
+Når data er klar så går funtionen i "TSL2591_DATA_READY" casen, hvor Lux gettes,
+derfter opdateres terrarium med seneste måling.
+*/
 void tsl2591Callback(tsl2591_returnCode_t rc)
 {
 	float _lux;
@@ -21,7 +22,7 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		if ( TSL2591_OK == (rc = tsl2591_getLux(&_lux)) )
 		{
 			updateTerrariumLight(_lux);
-			printf("Lux: %d\n",(int) _lux);
+			printf("Lux: %d \n",(int) _lux);
 		}
 		else if( TSL2591_OVERFLOW == rc )
 		{
@@ -31,7 +32,6 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		
 		case TSL2591_OK:
 		printf("Light Switch: TSL2591_OK");
-		// Last command performed successful
 		break;
 		
 		case TSL2591_BUSY:
@@ -42,26 +42,34 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		printf("Something wrong callBack and data not ready ENUM: %d", rc);
 		break;
 	}
+	free(&_lux);
 	
 }
 
+/*
+initLightSensor kaldes i main.
+Functionen står for opsætning af sensor hvor den får call back funtionen.
+*/
 void initLightSensor(){
 	
 	if ( TSL2591_OK == tsl2591_initialise(tsl2591Callback) )
 	{
 		printf("Light Sensor initialised");
-		// Driver initilised OK
-		// Always check what tsl2591_initialise() returns
 		} else{
 		printf("Light Sensor init failed");
 	}
 	
 }
 
+/*
+Run functionen, bliver brugt af lightSensorTask og står for at sætte måling af lys igang.
+Når målingen er sat i gang invoker driveren selv call back med resulatet.
 
+Målinger tages hvert 10 sec.
+*/
 inline void lightSensorRun(){
 	
-	vTaskDelay(pdMS_TO_TICKS(5000));
+	vTaskDelay(pdMS_TO_TICKS(10000));
 
 	if(TSL2591_OK != tsl2591_fetchData()){
 		printf("Fetch Data failed Light sensor");
@@ -72,10 +80,13 @@ inline void lightSensorRun(){
 	
 }
 
+/*
+Task oprettet i main og køre run funtionen.
+
+vTaskDelay på 3 sec for at vente på driveren er opsat.
+*/
 void lightSensorTask(void* pvParameters) {
-	(void)pvParameters;
 	
-	//lightSensorInit();
 	vTaskDelay(pdMS_TO_TICKS(3000));
 	tsl2591_enable();
 	
@@ -83,6 +94,6 @@ void lightSensorTask(void* pvParameters) {
 		lightSensorRun();
 		
 	}
-
+	printf("Something wrong lightSensorTask FAILED \n");
 	vTaskDelete(NULL);
 }

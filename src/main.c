@@ -1,10 +1,4 @@
-/*
-* main.c
-* Author : IHA
-*
-* Example main file including LoRaWAN setup
-* Just for inspiration :)
-*/
+
 //library filer
 #include <ATMEGA_FreeRTOS.h>
 #include <avr/interrupt.h>
@@ -14,21 +8,21 @@
 #include <task.h>
 #include <serial.h>
 #include <time.h>
+#include <message_buffer.h>
 
 //include drivers
 #include "serial.h"
 #include "stdio_driver.h"
 #include "lora_driver.h"
-#include <message_buffer.h>
 
-//header filer for de task vi opretter
+//header filer for de task vi opretter og servo.
 #include "tempHumSensor.h"
 #include "lightSensor.h"
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
 #include "co2Sensor.h"
 #include "terrarium.h"
-
+#include "servomotor.h"
 
 //definere vores min og maks ( vha. FreeRTOS)
 #define SENSOR_TASK_PRIORITY (configMAX_PRIORITIES - 3)
@@ -41,38 +35,32 @@ TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
 TaskHandle_t lightHandle = NULL;
 
-
+//Shared buffer mellem lora uplink og downlink.
 MessageBufferHandle_t downLinkMessageBufferHandle;
 
 int main() {
 	
-	//Interrupt must be enabled with sei() for light sensor (Ibs kode siger der)
+	//"Interrupt must be enabled with sei() for light sensor" - Ibs kode siger det
 	sei();
-	// Set output ports for leds used in the example
-	//DDRA |= _BV(DDA0) | _BV(DDA7);
 	
 	// Initialise the trace-driver to be used together with the R2R-Network
-	trace_init();
+	trace_init(); //TODO INGEN IDE
 
-	// Make it possible to use stdio on COM port 0 (USB) on Arduino board - Setting 57600,8,N,1
-	// for at printe ud skal dette her med ( header filen "stdio_driver.h" skal includes
+	//For at kunne bruge hterm terminalen skal stdio_initialise kaldes. Setting: 57600,8,N,1
 	stdio_initialise(ser_USART0);
 	
+	//buffer til downlink messages, begge handlers skal have den, derfor oprettet i main. 
 	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t) * 2);
 	
-	
-	// Innitalisere
-	
 	lora_driver_initialise(ser_USART1,downLinkMessageBufferHandle);
-	
-	
+	init_downlink_handler(downLinkMessageBufferHandle);
+
+	//init af hardware	
+	initServoMotor();
 	initTerrarium();
 	initTempHumSensor();
 	co2SensorInit();
-	init_downlink_handler(downLinkMessageBufferHandle);
 	initLightSensor();
-	
-
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, SENSOR_TASK_PRIORITY, &tempHumSensorHandle);
@@ -81,12 +69,10 @@ int main() {
 	xTaskCreate(lora_downlink_handler_task, "LoraWanDownLink", configMINIMAL_STACK_SIZE, NULL,LORA_TASK_PRIORITY, &loradownlink);
 	xTaskCreate(lightSensorTask, "Light Measurement", configMINIMAL_STACK_SIZE, NULL,SENSOR_TASK_PRIORITY, &lightHandle);
 
-
 	// der må ikke køres kode, når scheduleren er eksekveret
 	vTaskStartScheduler();
 
 		while (1)
 		{}
-
 }
 
