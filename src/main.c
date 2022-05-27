@@ -23,9 +23,11 @@
 #include "mh_z19.h"
 #include "rc_servo.h"
 #include <message_buffer.h>
+#include "tsl2591.h"
 
 //header filer for de task vi opretter
 #include "tempHumSensor.h"
+#include "lightSensor.h"
 #include "LoRaWANHandler.h"
 #include "lorawanDownlinkHandler.h"
 #include "co2Sensor.h"
@@ -40,13 +42,15 @@ TaskHandle_t tempHumSensorHandle = NULL;
 TaskHandle_t loRaWanHandle = NULL;
 TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
+TaskHandle_t lightHandle = NULL;
 
 
 MessageBufferHandle_t downLinkMessageBufferHandle;
 
 int main() {
 	
-	
+	//Interrupt must be enabled with sei() for light sensor (Ibs kode siger der)
+	sei();
 	// Set output ports for leds used in the example
 	//DDRA |= _BV(DDA0) | _BV(DDA7);
 	
@@ -75,12 +79,23 @@ int main() {
 	init_downlink_handler(downLinkMessageBufferHandle);
 	
 	
+	if ( TSL2591_OK == tsl2591_initialise(tsl2591Callback) )
+	{
+		printf("Light Sensor initialised");
+		// Driver initilised OK
+		// Always check what tsl2591_initialise() returns
+		} else{
+		printf("Light Sensor init failed");
+	}
+	
+	tsl2591_enable();
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, TEMP_TASK_PRIORITY, &tempHumSensorHandle);
 	xTaskCreate(lora_handler_task, "Led", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY+1, &loRaWanHandle);
 	xTaskCreate(co2SensorTask, "co2Mesurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &co2SensorHandle);
 	xTaskCreate(lora_downlink_handler_task, "loraDownLink", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &loradownlink);
+	xTaskCreate(lightSensorTask, "light Measurement", configMINIMAL_STACK_SIZE, NULL,TEMP_TASK_PRIORITY, &lightHandle);
 
 
 	// der må ikke køres kode, når scheduleren er eksekveret

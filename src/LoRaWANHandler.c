@@ -127,9 +127,10 @@ inline void loraHandlerRun(TickType_t xLastWakeTime, const TickType_t xFrequency
 	int16_t hum = getTerrariumHum(terrariumdata);
 	uint16_t co2 = getTerrariumCO2(terrariumdata);
 	int8_t isFed = getTerrariumIsFed(terrariumdata);
+	uint16_t light = getTerrariumLight(terrariumdata);
 	free(terrariumdata);
 
-printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
+printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d  -   Light: %d\n", temp, hum, co2, isFed, light);
 
 	_uplink_payload.bytes[0] = temp >> 8;
 	_uplink_payload.bytes[1] = temp & 0xFF;
@@ -137,8 +138,8 @@ printf("Temp: %d	-	Hum: %d		-	Co2: %d - IsFed: %d\n", temp, hum, co2, isFed);
 	_uplink_payload.bytes[3] = hum & 0xFF;
 	_uplink_payload.bytes[4] = co2 >> 8;
 	_uplink_payload.bytes[5] = co2 & 0xFF;
-	_uplink_payload.bytes[6] = 0;
-	_uplink_payload.bytes[7] = 0;
+	_uplink_payload.bytes[6] = light >> 8;
+	_uplink_payload.bytes[7] = light & 0xFF;
 	_uplink_payload.bytes[8] = 0;
 	_uplink_payload.bytes[9] = 0;
 	_uplink_payload.bytes[10] = isFed;
