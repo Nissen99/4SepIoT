@@ -44,7 +44,7 @@ int main() {
 	sei();
 	
 	// Initialise the trace-driver to be used together with the R2R-Network
-	trace_init(); //TODO INGEN IDE
+	//trace_init(); //IB's kode
 
 	//For at kunne bruge hterm terminalen skal stdio_initialise kaldes. Setting: 57600,8,N,1
 	stdio_initialise(ser_USART0);
