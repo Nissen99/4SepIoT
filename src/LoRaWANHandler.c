@@ -19,7 +19,7 @@ Sørger for at oprette forbindelse til LoraWan med data fra ønskede arduino shiel
 void _lora_setup(void)
 {
 	lora_driver_returnCode_t rc;
-
+	
 	// Factory reset the transceiver
 	printf("FactoryReset >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_rn2483FactoryReset()));
 	
@@ -135,10 +135,10 @@ inline void loraHandlerRun()
 	_uplink_payload.bytes[3] = hum & 0xFF;
 	_uplink_payload.bytes[4] = co2 >> 8;
 	_uplink_payload.bytes[5] = co2 & 0xFF;
-	_uplink_payload.bytes[6] = light >> 8;
-	_uplink_payload.bytes[7] = light & 0xFF;
-	_uplink_payload.bytes[8] = 0;
-	_uplink_payload.bytes[9] = 0;
+	_uplink_payload.bytes[6] = 0;
+	_uplink_payload.bytes[7] = 0;
+	_uplink_payload.bytes[8] = light >> 8;
+	_uplink_payload.bytes[9] = light & 0xFF;
 	_uplink_payload.bytes[10] = isFed;
 
 	printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
