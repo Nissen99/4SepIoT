@@ -1,4 +1,3 @@
-
 #include <util/delay.h>
 #include "tsl2591.h"
 #include "terrarium.h"
@@ -44,7 +43,6 @@ void tsl2591Callback(tsl2591_returnCode_t rc)
 		printf("Something wrong callBack and data not ready ENUM: %d \n", rc);
 		break;
 	}
-	
 }
 
 /*
@@ -59,7 +57,6 @@ void initLightSensor(){
 		} else{
 		printf("Light Sensor init failed \n");
 	}
-	
 }
 
 /*
@@ -76,10 +73,7 @@ inline void lightSensorRun(){
 	if(TSL2591_OK != rc){
 		printf("Fetch Data failed Light sensor \n");
 		return;
-	}
-
-	
-	
+	}	
 }
 
 /*
