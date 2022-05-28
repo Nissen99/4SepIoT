@@ -18,7 +18,7 @@
 //header filer for de task vi opretter og servo.
 #include "tempHumSensor.h"
 #include "lightSensor.h"
-#include "LoRaWANHandler.h"
+#include "lorawanUplinkHandler.h"
 #include "lorawanDownlinkHandler.h"
 #include "co2Sensor.h"
 #include "terrarium.h"
@@ -30,7 +30,7 @@
 
 //task setup
 TaskHandle_t tempHumSensorHandle = NULL;
-TaskHandle_t loRaWanHandle = NULL;
+TaskHandle_t lorawanUplink = NULL;
 TaskHandle_t co2SensorHandle = NULL;
 TaskHandle_t loradownlink = NULL;
 TaskHandle_t lightHandle = NULL;
@@ -64,7 +64,7 @@ int main() {
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, SENSOR_TASK_PRIORITY, &tempHumSensorHandle);
-	xTaskCreate(lora_handler_task, "LoraWanUplink", configMINIMAL_STACK_SIZE, NULL,LORA_TASK_PRIORITY, &loRaWanHandle);
+	xTaskCreate(lora_handler_task, "lorawanUplink", configMINIMAL_STACK_SIZE, NULL,LORA_TASK_PRIORITY, &lorawanUplink);
 	xTaskCreate(co2SensorTask, "Co2Mesurement", configMINIMAL_STACK_SIZE, NULL,SENSOR_TASK_PRIORITY, &co2SensorHandle);
 	xTaskCreate(lora_downlink_handler_task, "LoraWanDownLink", configMINIMAL_STACK_SIZE, NULL,LORA_TASK_PRIORITY, &loradownlink);
 	xTaskCreate(lightSensorTask, "Light Measurement", configMINIMAL_STACK_SIZE, NULL,SENSOR_TASK_PRIORITY, &lightHandle);

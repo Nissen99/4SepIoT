@@ -166,6 +166,7 @@ Terrariumdata_p prepareTerrariumData()
 	{
 		printf("Atleast one measurement for each type is required. Returning. \n");
 		free(newTerrarium);
+		newTerrarium = NULL;
 		return NULL;
 	} 
 
