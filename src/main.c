@@ -63,6 +63,7 @@ int main() {
 	initLightSensor();
 	
 	//opretter de Task vi skal lave ( vha. FreeRTOS)
+	//Vi giver en tom TaskHandler reference med, for at oprette en reference til den specifikke task - dog bruger vi ikke denne reference
 	xTaskCreate(tempHumSensorTask, "Temperature measurement", configMINIMAL_STACK_SIZE, NULL, SENSOR_TASK_PRIORITY, &tempHumSensorHandle);
 	xTaskCreate(lora_handler_task, "lorawanUplink", configMINIMAL_STACK_SIZE, NULL,LORA_TASK_PRIORITY, &lorawanUplink);
 	xTaskCreate(co2SensorTask, "Co2Mesurement", configMINIMAL_STACK_SIZE, NULL,SENSOR_TASK_PRIORITY, &co2SensorHandle);
