@@ -306,10 +306,10 @@
     <Compile Include="src\lorawanDownlinkHandler.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\LoRaWANHandler.c">
+    <Compile Include="src\lorawanUplinkHandler.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\LoRaWANHandler.h">
+    <Compile Include="src\lorawanUplinkHandler.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\main.c">

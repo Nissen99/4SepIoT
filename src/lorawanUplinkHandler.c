@@ -2,7 +2,7 @@
 #include <lora_driver.h>
 
 #include "terrarium.h"
-#include "LoRaWANHandler.h"
+#include "lorawanUplinkHandler.h"
 
 // Parameters for OTAA join - You have got these in a mail from IHA
 #define LORA_appEUI "2E20554EE0BE7265"
