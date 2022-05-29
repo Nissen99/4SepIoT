@@ -39,7 +39,7 @@ inline void tempHumSensorRun()
 	
 //step 1
 	int returnCode = hih8120_wakeup();
-	if(returnCode!= HIH8120_OK && returnCode != HIH8120_TWI_BUSY) {
+	if(returnCode!= HIH8120_OK) {
 		printf("Temperature wakeup error: %d\n", returnCode);
 		return;
 	}
