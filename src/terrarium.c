@@ -164,6 +164,7 @@ Terrariumdata_p prepareTerrariumData()
 	
 	if (temperatureCount == 0 || humidityCount == 0 || co2Count == 0 || light == 0)
 	{
+		xSemaphoreGive(semaphore);
 		printf("Atleast one measurement for each type is required. Returning. \n");
 		free(newTerrarium);
 		newTerrarium = NULL;
