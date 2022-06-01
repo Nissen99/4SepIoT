@@ -7,5 +7,5 @@ BastianVIA = Bastian Thomsen <br />
 Nissen99 = Mikkel Jacobsen <br />
 
 
-Commit historie og contribution graf giver ikke et klart billede af arbejds fordelingen.
+Commit historie og contribution graf giver ikke et klart billede af arbejds fordelingen. <br />
 Dette skyldes slavisk brug af pair programming og et git skifte under projektet. 
